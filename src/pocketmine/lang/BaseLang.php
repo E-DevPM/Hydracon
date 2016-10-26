@@ -45,7 +45,7 @@ class BaseLang{
 		$this->loadLang($path . $fallback . ".ini", $this->fallbackLang);
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return $this->get("language.name");
 	}
 
@@ -61,13 +61,13 @@ class BaseLang{
 					continue;
 				}
 
-				$t = explode("=", $line, 2);
+				$t = explode("=", $line);
 				if(count($t) < 2){
 					continue;
 				}
 
-				$key = trim($t[0]);
-				$value = trim($t[1]);
+				$key = trim(array_shift($t));
+				$value = trim(implode("=", $t));
 
 				if($value === ""){
 					continue;
@@ -92,7 +92,7 @@ class BaseLang{
 			$baseText = str_replace("{%$i}", $this->parseTranslation((string) $p), $baseText, $onlyPrefix);
 		}
 
-		return str_replace("%0", "", $baseText); //fixes a client bug where %0 in translation will cause freeze
+		return $baseText;
 	}
 
 	public function translate(TextContainer $c){
