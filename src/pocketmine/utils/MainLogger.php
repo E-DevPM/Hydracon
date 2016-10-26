@@ -68,7 +68,7 @@ class MainLogger extends \AttachableThreadedLogger{
 	}
 
 	public function critical($message){
-		$this->send($message, \LogLevel::CRITICAL, "CRITICAL", TextFormat::RED);
+		$this->send($message, \LogLevel::CRITICAL, "CRITICAL", TextFormat::DARK_RED);
 	}
 
 	public function error($message){
@@ -76,22 +76,22 @@ class MainLogger extends \AttachableThreadedLogger{
 	}
 
 	public function warning($message){
-		$this->send($message, \LogLevel::WARNING, "WARNING", TextFormat::YELLOW);
+		$this->send($message, \LogLevel::WARNING, "WARNING", TextFormat::RED);
 	}
 
 	public function notice($message){
-		$this->send($message, \LogLevel::NOTICE, "NOTICE", TextFormat::AQUA);
+		$this->send($message, \LogLevel::NOTICE, "NOTICE", TextFormat::GRAY);
 	}
 
 	public function info($message){
-		$this->send($message, \LogLevel::INFO, "INFO", TextFormat::WHITE);
+		$this->send($message, \LogLevel::INFO, "INFO", TextFormat::YELLOW);
 	}
 
 	public function debug($message){
 		if($this->logDebug === false){
 			return;
 		}
-		$this->send($message, \LogLevel::DEBUG, "DEBUG", TextFormat::GRAY);
+		$this->send($message, \LogLevel::DEBUG, "DEBUG", TextFormat::GOLD);
 	}
 
 	/**
@@ -189,7 +189,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			$threadName = (new \ReflectionClass($thread))->getShortName() . " thread";
 		}
 
-		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] " . TextFormat::RESET . $color . "[" . $threadName . "/" . $prefix . "]:" . " " . $message . TextFormat::RESET);
+		$message = TextFormat::toANSI(TextFormat::GREEN . "<" . date("H:i:s", $now) . "> " . TextFormat:BLUE . "Hydracon 》 " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);
 
 		if(!Terminal::hasFormattingCodes()){
