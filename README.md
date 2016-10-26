@@ -17,7 +17,7 @@
 
 __Hydracon is a free, open-source software that creates Minecraft: Pocket Edition servers and allows extending its functionalities__
 
-### Hydracon, modified by
+### Hydracon, a fork of PocketMine-MP, Modified by
 
 ### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/)
 
