@@ -1,5 +1,9 @@
 # ![Hydracon](http://realisticpocket.eu/Hydracon.png)
 
+# You Found the phar and start.sh on <https://github.com/E-DevPM/Stable-Phar-Hydracon>
+
+# /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
+
 - Hydracon and based on the software PocketMine-MP
 
 	This program is free software: you can redistribute it and/or modify
