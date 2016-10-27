@@ -1,6 +1,6 @@
 # ![Hydracon](http://realisticpocket.eu/Hydracon.png)
 
-# ! /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
+# /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
 
 - Hydracon and based on the software PocketMine-MP
 
