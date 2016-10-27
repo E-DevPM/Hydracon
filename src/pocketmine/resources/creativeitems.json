@@ -104,6 +104,11 @@
 	  "Packed Ice":{"ID":174,"Damage":0},
 	  "Snow Block":{"ID":80,"Damage":0},
 	  "End Stone":{"ID":121,"Damage":0},
+       "Wet Sponge (19.1)":{"ID":19,"Damage":1},
+       "Prismarine block0":{"ID":168,"Damage":0},
+       "Prismarine block1":{"ID":168,"Damage":1},
+       "Prismarine block2":{"ID":168,"Damage":2},
+       "Sea Lantern":{"ID":169,"Damage":0},
 
 	  "Cobblestone Wall":{"ID":139,"Damage":0},
 	  "Mossy Cobblestone Wall":{"ID":139,"Damage":1},

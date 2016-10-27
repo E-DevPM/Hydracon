@@ -53,6 +53,9 @@ class VersionCommand extends VanillaCommand{
 				$sender->getServer()->getVersion(),
 				Info::CURRENT_PROTOCOL
 			]));
+			$sender->sendMessage(new TranslationContainer("pocketmine.server.info.extended1", [
+			phpversion()
+			]));
 		}else{
 			$pluginName = implode(" ", $args);
 			$exactPlugin = $sender->getServer()->getPluginManager()->getPlugin($pluginName);

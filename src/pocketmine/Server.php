@@ -274,7 +274,7 @@ class Server{
 	 * @return string
 	 */
 	public function getName(){
-		return "PocketMine-MP";
+		return "Hydracon";
 	}
 
 	/**
@@ -1438,7 +1438,16 @@ class Server{
 				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
 			}
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-
+               $this->logger->info("
+ _    _           _                           
+| |  | |         | |                          
+| |__| |_   _  __| |_ __ __ _  ___ ___  _ __  
+|  __  | | | |/ _` | '__/ _` |/ __/ _ \| '_ \ 
+| |  | | |_| | (_| | | | (_| | (_| (_) | | | |
+|_|  |_|\__, |\__,_|_|  \__,_|\___\___/|_| |_|
+         __/ |                                
+        |___/ 
+");
 			$this->logger->info("Loading server properties...");
 			$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
 				"motd" => "Minecraft: PE Server",
