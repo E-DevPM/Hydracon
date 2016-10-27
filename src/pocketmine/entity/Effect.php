@@ -35,8 +35,8 @@ class Effect{
 	const FATIGUE = 4;
 	const MINING_FATIGUE = 4;
 	const STRENGTH = 5;
-//	TODO: const HEALING = 6;
-//	TODO: const HARMING = 7;
+     const HEALING = 6;
+     const HARMING = 7;
 	const JUMP = 8;
 	const NAUSEA = 9;
 	const CONFUSION = 9;

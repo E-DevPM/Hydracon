@@ -385,6 +385,8 @@
 	  "Observer":{"ID":251,"Damage":0},
 	  "Hopper":{"ID":410,"Damage":0},
 	  "Snowball":{"ID":332,"Damage":0},
+       "Prismarine Shard":{"ID":409,"Damage":0},
+       "Prismarine Crystal":{"ID":422,"Damage":0},
 	  
 	  "Coal":{"ID":263,"Damage":0},
 	  "Charcoal":{"ID":263,"Damage":1},

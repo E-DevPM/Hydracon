@@ -21,52 +21,40 @@
 
 namespace pocketmine\scheduler;
 
-abstract class Task{
+/**
+ * Allows the creation of simple callbacks with extra data
+ * The last parameter in the callback will be this object
+ *
+ * If you want to do a task in a Plugin, consider extending PluginTask to your needs
+ *
+ */
+class CallbackTask extends Task{
 
-	/** @var TaskHandler */
-	private $taskHandler = null;
+	/** @var callable */
+	protected $callable;
+
+	/** @var array */
+	protected $args;
 
 	/**
-	 * @return TaskHandler
+	 * @param callable $callable
+	 * @param array    $args
 	 */
-	public final function getHandler(){
-		return $this->taskHandler;
+	public function __construct(callable $callable, array $args = []){
+		$this->callable = $callable;
+		$this->args = $args;
+		$this->args[] = $this;
 	}
 
 	/**
-	 * @return int
+	 * @return callable
 	 */
-	public final function getTaskId(){
-		if($this->taskHandler !== null){
-			return $this->taskHandler->getTaskId();
-		}
-
-		return -1;
+	public function getCallable(){
+		return $this->callable;
 	}
 
-	/**
-	 * @param TaskHandler $taskHandler
-	 */
-	public final function setHandler($taskHandler){
-		if($this->taskHandler === null or $taskHandler === null){
-			$this->taskHandler = $taskHandler;
-		}
-	}
-
-	/**
-	 * Actions to execute when run
-	 *
-	 * @param $currentTick
-	 *
-	 * @return void
-	 */
-	public abstract function onRun($currentTick);
-
-	/**
-	 * Actions to execute if the Task is cancelled
-	 */
-	public function onCancel(){
-
+	public function onRun($currentTicks){
+		call_user_func_array($this->callable, $this->args);
 	}
 
 }

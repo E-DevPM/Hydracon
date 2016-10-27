@@ -209,6 +209,8 @@ class Item implements ItemIds{
 			self::$list[self::BEETROOT] = Beetroot::class;
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
+               self::$list[self::PRISMARINE_SHARD] = PrismarineShard::class;
+               self::$list[self::PRISMARINE_CRYSTAL] = PrismarineCrystal::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){

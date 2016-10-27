@@ -26,6 +26,7 @@ namespace pocketmine\scheduler;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
+use pocketmine\utils\MainLogger;
 use pocketmine\utils\PluginException;
 use pocketmine\utils\ReversePriorityQueue;
 
@@ -201,7 +202,7 @@ class ServerScheduler{
 			}else{
 				$taskName = "Callback#" . $callable;
 			}
-			Server::getInstance()->getLogger()->warning("A plugin attempted to register a deprecated CallbackTask ($taskName)");
+			//Server::getInstance()->getLogger()->warning("A plugin attempted to register a deprecated CallbackTask ($taskName)");
 		}
 
 		if($delay <= 0){
@@ -248,7 +249,10 @@ class ServerScheduler{
 					$task->run($this->currentTick);
 				}catch(\Throwable $e){
 					Server::getInstance()->getLogger()->critical("Could not execute task " . $task->getTaskName() . ": " . $e->getMessage());
-					Server::getInstance()->getLogger()->logException($e);
+					$logger = Server::getInstance()->getLogger();
+					if($logger instanceof MainLogger){
+						$logger->logException($e);
+					}
 				}
 				$task->timings->stopTiming();
 			}

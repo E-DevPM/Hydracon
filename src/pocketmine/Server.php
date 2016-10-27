@@ -97,6 +97,7 @@ use pocketmine\permission\DefaultPermissions;
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginLoadOrder;
+use pocketmine\plugin\FolderPluginLoader;
 use pocketmine\plugin\PluginManager;
 use pocketmine\plugin\ScriptPluginLoader;
 use pocketmine\scheduler\FileWriteTask;
@@ -1406,7 +1407,7 @@ class Server{
 		self::$sleeper = new \Threaded;
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
-
+          $this->logger->debug("Starting Server Version Hydracon");
 		try{
 
 			$this->filePath = $filePath;
@@ -1589,6 +1590,7 @@ class Server{
 			$this->profilingTickRate = (float) $this->getProperty("settings.profile-report-trigger", 20);
 			$this->pluginManager->registerInterface(PharPluginLoader::class);
 			$this->pluginManager->registerInterface(ScriptPluginLoader::class);
+               $this->pluginManager->registerInterface(FolderPluginLoader::class);
 
 			register_shutdown_function([$this, "crashDump"]);
 
@@ -1909,7 +1911,7 @@ class Server{
 		foreach($this->levels as $level){
 			$level->save();
 		}
-
+          $this->logger->info("Disabling all plugins...");
 		$this->pluginManager->disablePlugins();
 		$this->pluginManager->clearPlugins();
 		$this->commandMap->clearCommands();
@@ -1930,9 +1932,10 @@ class Server{
 		foreach($this->getIPBans()->getEntries() as $entry){
 			$this->getNetwork()->blockAddress($entry->getName(), -1);
 		}
-
+          $this->logger->info("Enabling all plugins...");
 		$this->pluginManager->registerInterface(PharPluginLoader::class);
 		$this->pluginManager->registerInterface(ScriptPluginLoader::class);
+          $this->pluginManager->registerInterface(FolderPluginLoader::class);
 		$this->pluginManager->loadPlugins($this->pluginPath);
 		$this->enablePlugins(PluginLoadOrder::STARTUP);
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
