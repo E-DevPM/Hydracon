@@ -76,7 +76,7 @@ namespace pocketmine {
 	const API_VERSION = "2.1.0";
 	const CODENAME = "Hydracon";
 	const MINECRAFT_VERSION = "v0.16.0 alpha";
-	const MINECRAFT_VERSION_NETWORK = "0.16.x";
+	const MINECRAFT_VERSION_NETWORK = "0.16.0";
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.
