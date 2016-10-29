@@ -1,5 +1,7 @@
 # ![Hydracon](http://realisticpocket.eu/Hydracon.png)
 
+__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 Beta servers and allows extending its functionalities.__
+
 # Download Hydracon!
  - _You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
@@ -20,7 +22,6 @@
 	You should have received a copy of the GNU Lesser General Public License
 	along with this program.  If not, click __[here](http://www.gnu.org/licenses/)__.
 
-__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition servers and allows extending its functionalities.__
 
 ### Hydracon, a fork of PocketMine-MP, modified by
 
