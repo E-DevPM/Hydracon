@@ -1,6 +1,7 @@
 # ![Hydracon](http://realisticpocket.eu/Hydracon.png)
 
-# You Found the phar and start.sh on <https://github.com/E-DevPM/Stable-Phar-Hydracon>
+# Download Hydracon!
+ - _You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
 # /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
 
@@ -17,9 +18,9 @@
 	GNU Lesser General Public License for more details.
 
 	You should have received a copy of the GNU Lesser General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	along with this program.  If not, click __[here](http://www.gnu.org/licenses/)__
 
-__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition servers and allows extending its functionalities__
+__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition servers and allows extending its functionalities.__
 
 ### Hydracon, a fork of PocketMine-MP, modified by
 
