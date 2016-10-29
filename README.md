@@ -18,7 +18,7 @@
 	GNU Lesser General Public License for more details.
 
 	You should have received a copy of the GNU Lesser General Public License
-	along with this program.  If not, click __[here](http://www.gnu.org/licenses/)__
+	along with this program.  If not, click __[here](http://www.gnu.org/licenses/)__.
 
 __Hydracon is a free, open-source software that creates Minecraft: Pocket Edition servers and allows extending its functionalities.__
 
