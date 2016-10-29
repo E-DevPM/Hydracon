@@ -23,39 +23,35 @@
 
 namespace pocketmine\block;
 
+use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
 class Prismarine extends Solid{
 
-	protected $id = self:: PRISMARINE_BLOCK;
+	const PRISMARINE = 0;
+	const PRISMARINE_BRICKS = 1;
+	const DARK_PRISMARINE = 2;
+
+	protected $id = self::PRISMARINE_BLOCK;
 
 	public function __construct($meta = 0){
          $this->meta = $meta;
 	}
 
-	public function getResistance(){
-		return 30;
-     }
-
 	public function getHardness(){
 		return 1.5;
 	}
 
-
 	public function getToolType(){
-		return Tool::TYPE_AXE;
+		return Tool::TYPE_PICKAXE;
 	}
 
-     public function getName(){
-      if($this->meta === 0){
-        return "Prismarine";
-
-     }elseif($this->meta === 1){
-       return "Prismarine Bricks";
- 
-      }elseif($this->meta === 2){
-       return "Dark Prismarine";
-  
-       }
-    }
- }
+	public function getName(){
+        static $names = [
+			self::PRISMARINE => "Prismarine",
+			self::PRISMARINE_BRICKS => "Prismarine Bricks",
+			self::DARK_PRISMARINE => "Dark Prismarine",
+		];
+		return $names[$this->meta & 0x07];
+	}
+}

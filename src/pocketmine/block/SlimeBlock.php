@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * | |  | |         | |                          
@@ -20,40 +19,21 @@
  * 
  *
 */
-
 namespace pocketmine\block;
-
 use pocketmine\item\Item;
-
-
-class SeaLantern extends Solid{
-
-	protected $id = self::SEA_LANTERN;
-
-	public function __construct(){
-
+use pocketmine\Player;
+class SlimeBlock extends Solid{
+	protected $id = self::SLIME_BLOCK;
+	public function __construct($meta = 15){
+		$this->meta = $meta;
 	}
-
-	public function getResistance(){
-		return 1.5;
-     }
-
-     public function getLightLevel() {
-          return 15;
-     }
-
-	public function getHardness(){
-		return 0.3;
+	public function hasEntityCollision(){
+		return true;
 	}
-
-	public function getName(){
-		return "SeaLantern";
+	public function getHardness() {
+		return 0;
 	}
-
-	public function getDrops(Item $item){
-		return [
-			[Item::PRISMARINE_CRYSTAL, 0, 3],
-		];
+	public function getName() : string{
+		return "Slime Block";
 	}
-
 }

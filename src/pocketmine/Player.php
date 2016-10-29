@@ -80,6 +80,7 @@ use pocketmine\inventory\ShapedRecipe;
 use pocketmine\inventory\ShapelessRecipe;
 use pocketmine\inventory\SimpleTransactionGroup;
 use pocketmine\item\Item;
+use pocketmine\item\ItemProjectile;
 use pocketmine\level\ChunkLoader;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
@@ -2019,43 +2020,46 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 
-					if($item->getId() === Item::SNOWBALL){
-						$nbt = new CompoundTag("", [
-							"Pos" => new ListTag("Pos", [
-								new DoubleTag("", $this->x),
-								new DoubleTag("", $this->y + $this->getEyeHeight()),
-								new DoubleTag("", $this->z)
-							]),
-							"Motion" => new ListTag("Motion", [
-								new DoubleTag("", $aimPos->x),
-								new DoubleTag("", $aimPos->y),
-								new DoubleTag("", $aimPos->z)
-							]),
-							"Rotation" => new ListTag("Rotation", [
-								new FloatTag("", $this->yaw),
-								new FloatTag("", $this->pitch)
-							]),
-						]);
 
-						$f = 1.5;
-						$snowball = Entity::createEntity("Snowball", $this->chunk, $nbt, $this);
-						$snowball->setMotion($snowball->getMotion()->multiply($f));
-						if($this->isSurvival()){
-							$item->setCount($item->getCount() - 1);
-							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
-						}
-						if($snowball instanceof Projectile){
-							$this->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($snowball));
-							if($projectileEv->isCancelled()){
-								$snowball->kill();
-							}else{
-								$snowball->spawnToAll();
-								$this->level->addSound(new LaunchSound($this), $this->getViewers());
-							}
-						}else{
-							$snowball->spawnToAll();
-						}
-					}
+               if($item instanceof ItemProjectile){
+					    $item->summonProjectile($this);
+ 					}
+  					if($item->getId() === Item::FISHING_ROD){
+  						if($this->isFishing()){
+  							$this->server->getPluginManager()->callEvent($ev = new PlayerUseFishingRodEvent($this, PlayerUseFishingRodEvent::ACTION_STOP_FISHING));
+ 						}else{
+ 							$this->server->getPluginManager()->callEvent($ev = new PlayerUseFishingRodEvent($this, PlayerUseFishingRodEvent::ACTION_START_FISHING));
+ 						}
+ 						if(!$ev->isCancelled()){
+ 							if($this->isFishing()){
+ 								$this->setFishingHook();
+ 							}else{
+ 								$nbt = new CompoundTag("", [
+ 									"Pos" => new ListTag("Pos", [
+ 										new DoubleTag("", $this->x),
+ 										new DoubleTag("", $this->y + $this->getEyeHeight()),
+ 										new DoubleTag("", $this->z)
+ 									]),
+ 									"Motion" => new ListTag("Motion", [
+ 										new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
+ 										new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
+ 										new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
+ 									]),
+ 									"Rotation" => new ListTag("Rotation", [
+ 										new FloatTag("", $this->yaw),
+ 										new FloatTag("", $this->pitch)
+ 									])
+ 								]);
+ 
+ 								$f = 0.6;
+ 								$this->fishingHook = new FishingHook($this->chunk, $nbt, $this);
+ 								$this->fishingHook->setMotion($this->fishingHook->getMotion()->multiply($f));
+  								$this->fishingHook->spawnToAll();
+  							}
+ 						  }
+  						}
+//modified Projectile
+
 
 					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, true);
 					$this->startAction = $this->server->getTick();

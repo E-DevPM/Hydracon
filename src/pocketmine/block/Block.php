@@ -245,6 +245,7 @@ class Block extends Position implements BlockIds, Metadatable{
 
                self::$list[self::PRISMARINE_BLOCK] = Prismarine::class;
                self::$list[self::SEA_LANTERN] = SeaLantern::class;
+               self::$list[self::SLIME_BLOCK] = SlimeBlock::class;
 
 			foreach(self::$list as $id => $class){
 				if($class !== null){

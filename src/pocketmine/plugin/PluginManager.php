@@ -222,7 +222,7 @@ class PluginManager{
 									continue;
 								}
 								//If the plugin requires new API features, being backwards compatible
-								if($version[1] > $apiVersion[1]){
+								if($version[1] > $apiVersion[1] && $version[0] == $apiVersion[0]){
 									continue;
 								}
 
