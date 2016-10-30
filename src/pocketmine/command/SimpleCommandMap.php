@@ -117,8 +117,12 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new TimeCommand("time"));
 		$this->register("pocketmine", new TimingsCommand("timings"));
 		$this->register("pocketmine", new ReloadCommand("reload"));
+<<<<<<< HEAD
           $this->register("pocketmine",new MakeServerCommand("makeserver"));
           $this->register("pocketmine", new SummonCommand("summon"));
+=======
+$this->register("pocketmine",new MakeServerCommand("makeserver"));
+>>>>>>> branch 'master' of https://github.com/E-DevPM/Hydracon.git
 
 		if($this->server->getProperty("debug.commands", false)){
 			$this->register("pocketmine", new StatusCommand("status"));
