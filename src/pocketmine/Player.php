@@ -2322,8 +2322,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				$cancelled = false;
 
-				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK){
+				if($packet->action !== InteractPacket::ACTION_LEFT_CLICK){
 					// TODO handle
+                        $cancelled = true;
 					break;
 				}
 
@@ -2418,15 +2419,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$ev->setCancelled();
 					}
 
-					$target->attack($ev->getFinalDamage(), $ev);
-
 					if($ev->isCancelled()){
 						if($item->isTool() and $this->isSurvival()){
 							$this->inventory->sendContents($this);
 						}
 						break;
-					}
-
+					}else{                        
+                         $target->attack($ev->getFinalDamage(), $ev);
+                         }
 					if($this->isSurvival()){
 						if($item->isTool()){
 							if($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){

@@ -42,6 +42,7 @@ class EntityEventPacket extends DataPacket{
 	const SQUID_INK_CLOUD = 15;
 	const AMBIENT_SOUND = 16;
 	const RESPAWN = 17;
+	const GUARDIAN = 18;
 
 	//TODO add new events
 

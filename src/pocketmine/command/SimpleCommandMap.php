@@ -61,6 +61,7 @@ use pocketmine\command\defaults\VanillaCommand;
 use pocketmine\command\defaults\VersionCommand;
 use pocketmine\command\defaults\WhitelistCommand;
 use pocketmine\command\defaults\MakeServerCommand;
+use pocketmine\command\defaults\SummonCommand;
 use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
@@ -116,16 +117,8 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new TimeCommand("time"));
 		$this->register("pocketmine", new TimingsCommand("timings"));
 		$this->register("pocketmine", new ReloadCommand("reload"));
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/E-DevPM/Hydracon.git
           $this->register("pocketmine",new MakeServerCommand("makeserver"));
-<<<<<<< HEAD
-=======
-
-$this->register("pocketmine", new MakeServerCommand("makeserver"));
->>>>>>> branch 'master' of https://github.com/E-DevPM/Hydracon.git
+          $this->register("pocketmine", new SummonCommand("summon"));
 
 		if($this->server->getProperty("debug.commands", false)){
 			$this->register("pocketmine", new StatusCommand("status"));

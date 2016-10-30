@@ -105,7 +105,7 @@ class FolderPluginLoader implements PluginLoader{
 	 */
 	public function enablePlugin(Plugin $plugin){
 		if($plugin instanceof PluginBase and !$plugin->isEnabled()){
-			MainLogger::getLogger()->info("Enabling " . $plugin->getDescription()->getFullName());
+			MainLogger::getLogger()->info(TextFormat::AQUA."Enabling " . $plugin->getDescription()->getFullName());
 
 			$plugin->setEnabled(true);
 
@@ -118,7 +118,7 @@ class FolderPluginLoader implements PluginLoader{
 	 */
 	public function disablePlugin(Plugin $plugin){
 		if($plugin instanceof PluginBase and $plugin->isEnabled()){
-			MainLogger::getLogger()->info("Disabling " . $plugin->getDescription()->getFullName());
+			MainLogger::getLogger()->info(TextFormat::AQUA."Disabling " . $plugin->getDescription()->getFullName());
 
 			Server::getInstance()->getPluginManager()->callEvent(new PluginDisableEvent($plugin));
 

@@ -42,6 +42,7 @@ use pocketmine\entity\PrimedTNT;
 use pocketmine\entity\Snowball;
 use pocketmine\entity\Squid;
 use pocketmine\entity\Villager;
+use pocketmine\entity\Guardian;
 use pocketmine\entity\Zombie;
 use pocketmine\event\HandlerList;
 use pocketmine\event\level\LevelInitEvent;
@@ -2521,7 +2522,7 @@ class Server{
 		Entity::registerEntity(Villager::class);
 		Entity::registerEntity(Zombie::class);
 		Entity::registerEntity(Squid::class);
-
+          Entity::registerEntity(Guardian::class);
 		Entity::registerEntity(Human::class, true);
 	}
 
