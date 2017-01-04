@@ -40,7 +40,7 @@ class RakLibServer extends \Thread{
 	 * @param int             $port
 	 * @param string          $interface
 	 *
-	 * @throws \Exception
+	 * @throws \Throwable
 	 */
 	public function __construct(\ThreadedLogger $logger, \ClassLoader $loader, $port, $interface = "0.0.0.0"){
 		$this->port = (int) $port;

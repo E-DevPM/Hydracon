@@ -1,4 +1,4 @@
-# ![Hydracon](http://realisticpocket.eu/Hydracon.png)
+# ![Hydracon]
 
 __Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 Beta servers and allows extending its functionalities.__
 

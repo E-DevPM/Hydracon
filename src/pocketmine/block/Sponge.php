@@ -39,7 +39,7 @@ $this->meta = $meta;
 		return 0.6;
 	}
 
-	public function getName(){
+	public function getName() : string{
      if($this->meta == 0){
 		return "Sponge";
      }else{

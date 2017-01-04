@@ -46,7 +46,7 @@ class Prismarine extends Solid{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
         static $names = [
 			self::PRISMARINE => "Prismarine",
 			self::PRISMARINE_BRICKS => "Prismarine Bricks",

@@ -2,24 +2,25 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *  _____   _____   __   _   _   _____  __    __  _____
+ * /  ___| | ____| |  \ | | | | /  ___/ \ \  / / /  ___/
+ * | |     | |__   |   \| | | | | |___   \ \/ /  | |___
+ * | |  _  |  __|  | |\   | | | \___  \   \  /   \___  \
+ * | |_| | | |___  | | \  | | |  ___| |   / /     ___| |
+ * \_____/ |_____| |_|  \_| |_| /_____/  /_/     /_____/
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
+ * @author iTX Technologies
+ * @link https://itxtech.org
  *
- *
-*/
+ */
 
 namespace pocketmine\item;
+
 use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\entity\Effect;
@@ -27,6 +28,7 @@ use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityDrinkPotionEvent;
 use pocketmine\network\protocol\EntityEventPacket;
+
 class Potion extends Item{
 	
 	//No effects
@@ -68,6 +70,7 @@ class Potion extends Item{
 	const STRENGTH_TWO = 33;
 	const WEAKNESS = 34;
 	const WEAKNESS_T = 35;
+	const DECAY = 36; //TODO
 	
 	//Structure: Potion ID => [matching effect, duration in ticks, amplifier]
 	//Use false if no effects.
@@ -126,9 +129,15 @@ class Potion extends Item{
 	public function __construct($meta = 0, $count = 1){
 		parent::__construct(self::POTION, $meta, $count, self::getNameByMeta($meta));
 	}
+
 	public static function getColor(int $meta){
-		return Effect::getEffect(self::getEffectId($meta))->getColor();
+		$effect = Effect::getEffect(self::getEffectId($meta));
+		if($effect !== null){
+			return $effect->getColor();
+		}
+		return [0, 0, 0];
 	}
+
 	public function getMaxStackSize() : int{
 		return 1;
 	}
@@ -144,12 +153,13 @@ class Potion extends Item{
 	public function getEffects(): array{
 		return self::getEffectsById($this->meta);
 	}
+
 	/**
 	 * @param int $id
 	 * @return Effect[]
 	 */
 	public static function getEffectsById(int $id) : array{
-		if(count(self::POTIONS[$id]) === 3){
+		if(count(self::POTIONS[$id] ?? []) === 3){
 			return [Effect::getEffect(self::POTIONS[$id][0])->setDuration(self::POTIONS[$id][1])->setAmplifier(self::POTIONS[$id][2])];
 		}
 		return [];
@@ -179,6 +189,7 @@ class Potion extends Item{
 			}
 			$human->getInventory()->setItemInHand(Item::get(self::GLASS_BOTTLE));
 		}
+
 		
 	}
 	
@@ -222,7 +233,7 @@ class Potion extends Item{
 			case self::REGENERATION_TWO:
 				return Effect::REGENERATION;
 			default:
-				return Effect::WATER_BREATHING;
+				return 0;
 		}
 	}
 	

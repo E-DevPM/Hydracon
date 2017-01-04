@@ -46,11 +46,11 @@ class SeaLantern extends Solid{
 		return 0.3;
 	}
 
-	public function getName(){
+	public function getName() : string {
 		return "SeaLantern";
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array {
 		return [
 			[Item::PRISMARINE_CRYSTAL, 0, 3],
 		];

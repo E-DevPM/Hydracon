@@ -72,11 +72,11 @@ namespace pocketmine {
 	use pocketmine\utils\Utils;
 	use pocketmine\wizard\Installer;
 
-	const VERSION = "1.6.1dev";
+	const VERSION = "1.7dev";
 	const API_VERSION = "2.1.0";
 	const CODENAME = "Hydracon";
-	const MINECRAFT_VERSION = "v0.16.0";
-	const MINECRAFT_VERSION_NETWORK = "0.16.0";
+	const MINECRAFT_VERSION = "v1.0";
+	const MINECRAFT_VERSION_NETWORK = "1.0";
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.

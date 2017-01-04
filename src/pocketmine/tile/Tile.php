@@ -26,12 +26,12 @@ namespace pocketmine\tile;
 
 use pocketmine\event\Timings;
 use pocketmine\level\format\Chunk;
-use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\utils\ChunkException;
 
 abstract class Tile extends Position{
 	const SIGN = "Sign";
@@ -40,8 +40,14 @@ abstract class Tile extends Position{
 	const FLOWER_POT = "FlowerPot";
 	const MOB_SPAWNER = "MobSpawner";
 	const SKULL = "Skull";
-	const BREWING_STAND = "Cauldron";
+	const BREWING_STAND = "BrewingStand";
 	const ENCHANT_TABLE = "EnchantTable";
+	const ITEM_FRAME = "ItemFrame";
+	const DISPENSER = "Dispenser";
+	const DROPPER = "Dropper";
+	const DAY_LIGHT_DETECTOR = "DLDetector";
+	const CAULDRON = "Cauldron";
+	const HOPPER = "Hopper";
 
 	public static $tileCount = 1;
 
@@ -66,15 +72,32 @@ abstract class Tile extends Position{
 	/** @var \pocketmine\event\TimingsHandler */
 	public $tickTimer;
 
+	public static function init(){
+		self::registerTile(BrewingStand::class);
+		self::registerTile(Cauldron::class);
+		self::registerTile(Chest::class);
+		self::registerTile(Dispenser::class);
+		self::registerTile(DLDetector::class);
+		self::registerTile(Dropper::class);
+		self::registerTile(EnchantTable::class);
+		self::registerTile(FlowerPot::class);
+		self::registerTile(Furnace::class);
+		self::registerTile(Hopper::class);
+		self::registerTile(ItemFrame::class);
+		self::registerTile(MobSpawner::class);
+		self::registerTile(Sign::class);
+		self::registerTile(Skull::class);
+	}
+
 	/**
-	 * @param string      $type
-	 * @param FullChunk   $chunk
-	 * @param CompoundTag $nbt
-	 * @param             $args
+	 * @param string    $type
+	 * @param Chunk $chunk
+	 * @param CompoundTag  $nbt
+	 * @param           $args
 	 *
 	 * @return Tile
 	 */
-	public static function createTile($type, FullChunk $chunk, CompoundTag $nbt, ...$args){
+	public static function createTile($type, Chunk $chunk, CompoundTag $nbt, ...$args){
 		if(isset(self::$knownTiles[$type])){
 			$class = self::$knownTiles[$type];
 			return new $class($chunk, $nbt, ...$args);
@@ -108,8 +131,10 @@ abstract class Tile extends Position{
 		return self::$shortNames[static::class];
 	}
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-		assert($chunk !== null and $chunk->getProvider() !== null);
+	public function __construct(Chunk $chunk, CompoundTag $nbt){
+		if($chunk === null or $chunk->getProvider() === null){
+			throw new ChunkException("Invalid garbage Chunk given to Tile");
+		}
 
 		$this->timings = Timings::getTileEntityTimings($this);
 
@@ -163,7 +188,7 @@ abstract class Tile extends Position{
 		if(!$this->closed){
 			$this->closed = true;
 			unset($this->level->updateTiles[$this->id]);
-			if($this->chunk instanceof FullChunk){
+			if($this->chunk instanceof Chunk){
 				$this->chunk->removeTile($this);
 			}
 			if(($level = $this->getLevel()) instanceof Level){
@@ -173,7 +198,7 @@ abstract class Tile extends Position{
 		}
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return $this->name;
 	}
 

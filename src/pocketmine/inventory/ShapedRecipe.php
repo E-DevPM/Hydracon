@@ -22,9 +22,9 @@
 namespace pocketmine\inventory;
 
 use pocketmine\item\Item;
-use pocketmine\math\Vector2;
 use pocketmine\Server;
 use pocketmine\utils\UUID;
+use pocketmine\math\Vector2;
 
 class ShapedRecipe implements Recipe{
 	/** @var Item */
@@ -99,6 +99,7 @@ class ShapedRecipe implements Recipe{
 			throw new \Exception("Symbol does not appear in the shape: " . $key);
 		}
 
+		$item->setCount(1);
 		$this->fixRecipe($key, $item);
 
 		return $this;
@@ -128,6 +129,23 @@ class ShapedRecipe implements Recipe{
 
 		return $ingredients;
 	}
+
+	/**
+ 	 * @return Item[]
+ 	 */
+ 	public function getIngredientList(){
+ 		$ingredients = [];
+ 		for ($x = 0; $x < 3; ++$x){
+ 			for ($y = 0; $y < 3; ++$y){
+ 				if (!empty($this->ingredients[$x][$y])){
+ 					if ($this->ingredients[$x][$y]->getId() !== Item::AIR){
+ 						$ingredients[] = clone $this->ingredients[$x][$y];
+ 					}
+ 				}
+ 			}
+ 		}
+ 		return $ingredients;
+ 	}
 
 	/**
 	 * @param $x

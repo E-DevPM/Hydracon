@@ -102,11 +102,11 @@ class SessionManager{
 		while(!$this->shutdown){
 			$start = microtime(true);
 			$max = 5000;
-			while(--$max and $this->receivePacket());
-			while($this->receiveStream());
+			while(--$max and $this->receivePacket()) ;
+			while($this->receiveStream()) ;
 			$time = microtime(true) - $start;
 			if($time < 0.05){
-				time_sleep_until(microtime(true) + 0.05 - $time);
+				@time_sleep_until(microtime(true) + 0.05 - $time);
 			}
 			$this->tick();
 		}
@@ -124,7 +124,6 @@ class SessionManager{
 			}
 		}
 		$this->ipSec = [];
-
 
 
 		if(($this->ticks & 0b1111) === 0){
@@ -311,6 +310,11 @@ class SessionManager{
 				$offset += $len;
 				$timeout = Binary::readInt(substr($packet, $offset, 4));
 				$this->blockAddress($address, $timeout);
+			}elseif($id === RakLib::PACKET_UNBLOCK_ADDRESS){
+				$len = ord($packet{$offset++});
+				$address = substr($packet, $offset, $len);
+				$offset += $len;
+				$this->unblockAddress($address);
 			}elseif($id === RakLib::PACKET_SHUTDOWN){
 				foreach($this->sessions as $session){
 					$this->removeSession($session);
@@ -343,10 +347,14 @@ class SessionManager{
 			$this->block[$address] = $final;
 		}
 	}
+	
+	public function unblockAddress($address){
+		unset($this->block[$address]);
+	}
 
 	/**
 	 * @param string $ip
-	 * @param int	$port
+	 * @param int    $port
 	 *
 	 * @return Session
 	 */
@@ -377,7 +385,7 @@ class SessionManager{
 		$this->streamACK($session->getAddress() . ":" . $session->getPort(), $identifierACK);
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return $this->name;
 	}
 
