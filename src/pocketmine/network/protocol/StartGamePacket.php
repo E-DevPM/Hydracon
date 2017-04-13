@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -47,7 +47,7 @@ class StartGamePacket extends DataPacket{
 	public $lightningLevel;
 	public $commandsEnabled;
 	public $isTexturePacksRequired = 0;
-	public $unknown;
+	public $levelId = ""; //base64 string, usually the same as world folder name in vanilla
 	public $worldName;
 
 	public function decode(){
@@ -56,8 +56,8 @@ class StartGamePacket extends DataPacket{
 
 	public function encode(){
 		$this->reset();
-		$this->putVarInt($this->entityUniqueId); //EntityUniqueID
-		$this->putVarInt($this->entityRuntimeId); //EntityRuntimeID
+		$this->putEntityId($this->entityUniqueId); //EntityUniqueID
+		$this->putEntityId($this->entityRuntimeId); //EntityRuntimeID
 		$this->putVector3f($this->x, $this->y, $this->z);
 		$this->putLFloat(0); //TODO: find out what these are (yaw/pitch?)
 		$this->putLFloat(0);
@@ -74,7 +74,7 @@ class StartGamePacket extends DataPacket{
 		$this->putLFloat($this->lightningLevel);
 		$this->putBool($this->commandsEnabled);
 		$this->putBool($this->isTexturePacksRequired);
-		$this->putString($this->unknown);
+		$this->putString($this->levelId);
 		$this->putString($this->worldName);
 	}
 

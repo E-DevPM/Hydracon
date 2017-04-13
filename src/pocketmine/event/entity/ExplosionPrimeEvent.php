@@ -32,26 +32,15 @@ class ExplosionPrimeEvent extends EntityEvent implements Cancellable{
 
 	protected $force;
 	private $blockBreaking;
-	private $dropItem;
 
 	/**
 	 * @param Entity $entity
 	 * @param float  $force
-	 * @param bool   $dropItem
 	 */
-	public function __construct(Entity $entity, $force, bool $dropItem){
+	public function __construct(Entity $entity, $force){
 		$this->entity = $entity;
 		$this->force = $force;
 		$this->blockBreaking = true;
-		$this->dropItem = $dropItem;
-	}
-
-	public function setDropItem(bool $dropItem){
-		$this->dropItem = $dropItem;
-	}
-
-	public function dropItem() : bool{
-		return $this->dropItem;
 	}
 
 	/**

@@ -55,8 +55,8 @@ interface Inventory{
 	 * If a plugin refuses the update or $index is invalid, it'll return false
 	 * If a source Player is specified, it won't send a Inventory update to it
 	 *
-	 * @param int    $index
-	 * @param Item   $item
+	 * @param int  $index
+	 * @param Item $item
 	 *
 	 * @return bool
 	 */
@@ -68,7 +68,7 @@ interface Inventory{
 	 *
 	 * Returns the Items that did not fit.
 	 *
-	 * @param Item ...$item
+	 * @param Item ...$slots
 	 *
 	 * @return Item[]
 	 */
@@ -87,7 +87,7 @@ interface Inventory{
 	 * Removes the given Item from the inventory.
 	 * It will return the Items that couldn't be removed.
 	 *
-	 * @param Item ...$item
+	 * @param Item ...$slots
 	 *
 	 * @return Item[]
 	 */
@@ -161,7 +161,7 @@ interface Inventory{
 	/**
 	 * Will clear a specific slot
 	 *
-	 * @param int    $index
+	 * @param int $index
 	 *
 	 * @return bool
 	 */
@@ -212,9 +212,8 @@ interface Inventory{
 	public function onClose(Player $who);
 
 	/**
-	 * @param int    $index
-	 * @param Item   $before
-	 * @param bool   $send
+	 * @param int  $index
+	 * @param Item $before
 	 */
-	public function onSlotChange($index, $before, $send);
+	public function onSlotChange($index, $before);
 }

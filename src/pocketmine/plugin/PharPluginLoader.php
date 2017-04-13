@@ -24,8 +24,6 @@ namespace pocketmine\plugin;
 use pocketmine\event\plugin\PluginDisableEvent;
 use pocketmine\event\plugin\PluginEnableEvent;
 use pocketmine\Server;
-use pocketmine\utils\PluginException;
-use pocketmine\utils\TextFormat;
 
 /**
  * Handles different types of plugins
@@ -53,7 +51,7 @@ class PharPluginLoader implements PluginLoader{
 	 */
 	public function loadPlugin($file){
 		if(($description = $this->getPluginDescription($file)) instanceof PluginDescription){
-			$this->server->getLogger()->info(TextFormat::AQUA."Loading plugin ".$description->getFullName());
+			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.load", [$description->getFullName()]));
 			$dataFolder = dirname($file) . DIRECTORY_SEPARATOR . $description->getName();
 			if(file_exists($dataFolder) and !is_dir($dataFolder)){
 				throw new \InvalidStateException("Projected dataFolder '" . $dataFolder . "' for " . $description->getName() . " exists and is not a directory");
@@ -97,7 +95,7 @@ class PharPluginLoader implements PluginLoader{
 	/**
 	 * Returns the filename patterns that this loader accepts
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function getPluginFilters(){
 		return "/\\.phar$/i";
@@ -119,7 +117,7 @@ class PharPluginLoader implements PluginLoader{
 	 */
 	public function enablePlugin(Plugin $plugin){
 		if($plugin instanceof PluginBase and !$plugin->isEnabled()){
-			$this->server->getLogger()->info(TextFormat::AQUA."Enabling  ".$plugin->getDescription()->getFullName());
+			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.enable", [$plugin->getDescription()->getFullName()]));
 
 			$plugin->setEnabled(true);
 
@@ -132,7 +130,7 @@ class PharPluginLoader implements PluginLoader{
 	 */
 	public function disablePlugin(Plugin $plugin){
 		if($plugin instanceof PluginBase and $plugin->isEnabled()){
-			$this->server->getLogger()->info(TextFormat::AQUA."Disabling ".$plugin->getDescription()->getFullName());
+			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.disable", [$plugin->getDescription()->getFullName()]));
 
 			$this->server->getPluginManager()->callEvent(new PluginDisableEvent($plugin));
 

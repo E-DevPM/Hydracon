@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -29,7 +29,7 @@ class UpdateBlockPacket extends DataPacket{
 
 	const FLAG_NONE      = 0b0000;
 	const FLAG_NEIGHBORS = 0b0001;
-    const FLAG_NETWORK   = 0b0010;
+	const FLAG_NETWORK   = 0b0010;
 	const FLAG_NOGRAPHIC = 0b0100;
 	const FLAG_PRIORITY  = 0b1000;
 
@@ -37,8 +37,8 @@ class UpdateBlockPacket extends DataPacket{
 	const FLAG_ALL_PRIORITY = (self::FLAG_ALL | self::FLAG_PRIORITY);
 
 	public $x;
-	public $y;
 	public $z;
+	public $y;
 	public $blockId;
 	public $blockData;
 	public $flags;

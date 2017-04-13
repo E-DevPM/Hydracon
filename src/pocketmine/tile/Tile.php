@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -31,23 +31,18 @@ use pocketmine\level\Position;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\utils\ChunkException;
 
 abstract class Tile extends Position{
-	const SIGN = "Sign";
-	const CHEST = "Chest";
-	const FURNACE = "Furnace";
-	const FLOWER_POT = "FlowerPot";
-	const MOB_SPAWNER = "MobSpawner";
-	const SKULL = "Skull";
+
 	const BREWING_STAND = "BrewingStand";
+	const CHEST = "Chest";
 	const ENCHANT_TABLE = "EnchantTable";
+	const FLOWER_POT = "FlowerPot";
+	const FURNACE = "Furnace";
 	const ITEM_FRAME = "ItemFrame";
-	const DISPENSER = "Dispenser";
-	const DROPPER = "Dropper";
-	const DAY_LIGHT_DETECTOR = "DLDetector";
-	const CAULDRON = "Cauldron";
-	const HOPPER = "Hopper";
+	const MOB_SPAWNER = "MobSpawner";
+	const SIGN = "Sign";
+	const SKULL = "Skull";
 
 	public static $tileCount = 1;
 
@@ -58,9 +53,6 @@ abstract class Tile extends Position{
 	public $chunk;
 	public $name;
 	public $id;
-	public $x;
-	public $y;
-	public $z;
 	public $attach;
 	public $metadata;
 	public $closed = false;
@@ -73,34 +65,27 @@ abstract class Tile extends Position{
 	public $tickTimer;
 
 	public static function init(){
-		self::registerTile(BrewingStand::class);
-		self::registerTile(Cauldron::class);
 		self::registerTile(Chest::class);
-		self::registerTile(Dispenser::class);
-		self::registerTile(DLDetector::class);
-		self::registerTile(Dropper::class);
 		self::registerTile(EnchantTable::class);
 		self::registerTile(FlowerPot::class);
 		self::registerTile(Furnace::class);
-		self::registerTile(Hopper::class);
 		self::registerTile(ItemFrame::class);
-		self::registerTile(MobSpawner::class);
 		self::registerTile(Sign::class);
 		self::registerTile(Skull::class);
 	}
 
 	/**
-	 * @param string    $type
-	 * @param Chunk $chunk
-	 * @param CompoundTag  $nbt
-	 * @param           $args
+	 * @param string      $type
+	 * @param Level       $level
+	 * @param CompoundTag $nbt
+	 * @param             $args
 	 *
 	 * @return Tile
 	 */
-	public static function createTile($type, Chunk $chunk, CompoundTag $nbt, ...$args){
+	public static function createTile($type, Level $level, CompoundTag $nbt, ...$args){
 		if(isset(self::$knownTiles[$type])){
 			$class = self::$knownTiles[$type];
-			return new $class($chunk, $nbt, ...$args);
+			return new $class($level, $nbt, ...$args);
 		}
 
 		return null;
@@ -131,17 +116,15 @@ abstract class Tile extends Position{
 		return self::$shortNames[static::class];
 	}
 
-	public function __construct(Chunk $chunk, CompoundTag $nbt){
-		if($chunk === null or $chunk->getProvider() === null){
-			throw new ChunkException("Invalid garbage Chunk given to Tile");
-		}
-
+	public function __construct(Level $level, CompoundTag $nbt){
 		$this->timings = Timings::getTileEntityTimings($this);
 
-		$this->server = $chunk->getProvider()->getLevel()->getServer();
-		$this->chunk = $chunk;
-		$this->setLevel($chunk->getProvider()->getLevel());
 		$this->namedtag = $nbt;
+		$this->server = $level->getServer();
+		$this->setLevel($level);
+		$this->chunk = $level->getChunk($this->namedtag["x"] >> 4, $this->namedtag["z"] >> 4, false);
+		assert($this->chunk !== null);
+
 		$this->name = "";
 		$this->lastUpdate = microtime(true);
 		$this->id = Tile::$tileCount++;
@@ -190,15 +173,18 @@ abstract class Tile extends Position{
 			unset($this->level->updateTiles[$this->id]);
 			if($this->chunk instanceof Chunk){
 				$this->chunk->removeTile($this);
+				$this->chunk = null;
 			}
 			if(($level = $this->getLevel()) instanceof Level){
 				$level->removeTile($this);
+				$this->setLevel(null);
 			}
-			$this->level = null;
+
+			$this->namedtag = null;
 		}
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return $this->name;
 	}
 

@@ -32,12 +32,12 @@ use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 abstract class Command{
-	/** @var \stdClass */
+	/** @var array */
 	private static $defaultDataTemplate = null;
 
 	/** @var string */
 	private $name;
-	/** @var \stdClass */
+	/** @var array */
 	protected $commandData = null;
 
 	/** @var string */
@@ -66,9 +66,6 @@ abstract class Command{
 	protected $usageMessage;
 
 	/** @var string */
-	private $permission = null;
-
-	/** @var string */
 	private $permissionMessage = null;
 
 	/** @var TimingsHandler */
@@ -90,11 +87,11 @@ abstract class Command{
 	}
 
 	/**
-	 * Returns an \stdClass containing command data
+	 * Returns an array containing command data
 	 *
-	 * @return \stdClass
+	 * @return array
 	 */
-	public function getDefaultCommandData() : \stdClass{
+	public function getDefaultCommandData() : array{
 		return $this->commandData;
 	}
 
@@ -104,24 +101,28 @@ abstract class Command{
 	 *
 	 * @param Player $player
 	 *
-	 * @return \stdClass|null
+	 * @return array
 	 */
 	public function generateCustomCommandData(Player $player){
-		if(!$this->testPermission($player)){
+		//TODO: fix command permission filtering on join
+		/*if(!$this->testPermissionSilent($player)){
 			return null;
-		}
-		$customData = clone $this->commandData;
-		$customData->aliases = $this->getAliases();
-		foreach($customData->overloads as &$overload){
-			if(($p = @$overload->pocketminePermission) !== null and !$player->hasPermission($p)){
-				unset($overload);
+		}*/
+		$customData = $this->commandData;
+		$customData["aliases"] = $this->getAliases();
+		/*foreach($customData["overloads"] as $overloadName => $overload){
+			if(isset($overload["pocketminePermission"]) and !$player->hasPermission($overload["pocketminePermission"])){
+				unset($customData["overloads"][$overloadName]);
 			}
-		}
+		}*/
 		return $customData;
 	}
 
-	public function getOverloads(): \stdClass{
-		return $this->commandData->overloads;
+	/**
+	 * @return array
+	 */
+	public function getOverloads(): array{
+		return $this->commandData["overloads"];
 	}
 
 	/**
@@ -144,18 +145,18 @@ abstract class Command{
 	 * @return string
 	 */
 	public function getPermission(){
-		return $this->commandData->pocketminePermission ?? null;
+		return $this->commandData["pocketminePermission"] ?? null;
 	}
-	
+
 
 	/**
 	 * @param string|null $permission
 	 */
 	public function setPermission($permission){
 		if($permission !== null){
-			$this->commandData->pocketminePermission = $permission;
+			$this->commandData["pocketminePermission"] = $permission;
 		}else{
-			unset($this->commandData->pocketminePermission);
+			unset($this->commandData["pocketminePermission"]);
 		}
 	}
 
@@ -241,7 +242,7 @@ abstract class Command{
 	public function unregister(CommandMap $commandMap){
 		if($this->allowChangesFrom($commandMap)){
 			$this->commandMap = null;
-			$this->activeAliases = $this->commandData->aliases;
+			$this->activeAliases = $this->commandData["aliases"];
 			$this->label = $this->nextLabel;
 
 			return true;
@@ -284,7 +285,7 @@ abstract class Command{
 	 * @return string
 	 */
 	public function getDescription(){
-		return $this->commandData->description;
+		return $this->commandData["description"];
 	}
 
 	/**
@@ -298,7 +299,7 @@ abstract class Command{
 	 * @param string[] $aliases
 	 */
 	public function setAliases(array $aliases){
-		$this->commandData->aliases = $aliases;
+		$this->commandData["aliases"] = $aliases;
 		if(!$this->isRegistered()){
 			$this->activeAliases = (array) $aliases;
 		}
@@ -308,7 +309,7 @@ abstract class Command{
 	 * @param string $description
 	 */
 	public function setDescription($description){
-		$this->commandData->description = $description;
+		$this->commandData["description"] = $description;
 	}
 
 	/**
@@ -325,11 +326,14 @@ abstract class Command{
 		$this->usageMessage = $usage;
 	}
 
-	public static final function generateDefaultData() : \stdClass{
+	/**
+	 * @return array
+	 */
+	public static final function generateDefaultData() : array{
 		if(self::$defaultDataTemplate === null){
-			self::$defaultDataTemplate = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"));
+			self::$defaultDataTemplate = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"), true);
 		}
-		return clone self::$defaultDataTemplate;
+		return self::$defaultDataTemplate;
 	}
 
 	/**

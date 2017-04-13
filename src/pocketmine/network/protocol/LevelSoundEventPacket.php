@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -47,7 +47,7 @@ class LevelSoundEventPacket extends DataPacket{
 	const SOUND_MAD = 18;
 	const SOUND_BOOST = 19;
 	const SOUND_BOW = 20;
-	const SOUND_SQUISH_BIG  = 21;
+	const SOUND_SQUISH_BIG = 21;
 	const SOUND_SQUISH_SMALL = 22;
 	const SOUND_FALL_BIG = 23;
 	const SOUND_FALL_SMALL = 24;
@@ -110,28 +110,32 @@ class LevelSoundEventPacket extends DataPacket{
 	const SOUND_BUCKET_EMPTY_WATER = 81;
 	const SOUND_BUCKET_EMPTY_LAVA = 82;
 	const SOUND_GUARDIAN_FLOP = 83;
-	const SOUND_ELDERGUARDIAN_CURSE = 84;
+	const SOUND_MOB_ELDERGUARDIAN_CURSE = 84;
 	const SOUND_MOB_WARNING = 85;
 	const SOUND_MOB_WARNING_BABY = 86;
 	const SOUND_TELEPORT = 87;
 	const SOUND_SHULKER_OPEN = 88;
 	const SOUND_SHULKER_CLOSE = 89;
-	const SOUND_DEFAULT = 90;
-	const SOUND_UNDEFINED = 91;
+	const SOUND_HAGGLE = 90;
+	const SOUND_HAGGLE_YES = 91;
+	const SOUND_HAGGLE_NO = 92;
+	const SOUND_HAGGLE_IDLE = 93;
+	const SOUND_DEFAULT = 94;
+	const SOUND_UNDEFINED = 95;
 
 	public $sound;
 	public $x;
 	public $y;
 	public $z;
-	public $volume;
-	public $pitch;
-	public $unknownBool;
-	public $unknownBool2;
+	public $extraData = -1;
+	public $pitch = 1;
+	public $unknownBool = false;
+	public $unknownBool2 = false;
 
 	public function decode(){
 		$this->sound = $this->getByte();
 		$this->getVector3f($this->x, $this->y, $this->z);
-		$this->volume = $this->getVarInt();
+		$this->extraData = $this->getVarInt();
 		$this->pitch = $this->getVarInt();
 		$this->unknownBool = $this->getBool();
 		$this->unknownBool2 = $this->getBool();
@@ -141,7 +145,7 @@ class LevelSoundEventPacket extends DataPacket{
 		$this->reset();
 		$this->putByte($this->sound);
 		$this->putVector3f($this->x, $this->y, $this->z);
-		$this->putVarInt($this->volume);
+		$this->putVarInt($this->extraData);
 		$this->putVarInt($this->pitch);
 		$this->putBool($this->unknownBool);
 		$this->putBool($this->unknownBool2);

@@ -1,11 +1,12 @@
 <?php
+
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,16 +15,18 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
+
 namespace pocketmine\utils;
+
 #include <rules/DataPacket.h>
-#ifndef COMPILE
-#endif
+
 use pocketmine\item\Item;
 
 class BinaryStream extends \stdClass{
+
 	public $offset;
 	public $buffer;
 
@@ -59,6 +62,7 @@ class BinaryStream extends \stdClass{
 			$this->offset = strlen($this->buffer);
 			return $str;
 		}
+
 		return $len === 1 ? $this->buffer{$this->offset++} : substr($this->buffer, ($this->offset += $len) - $len, $len);
 	}
 
@@ -122,8 +126,8 @@ class BinaryStream extends \stdClass{
 		$this->buffer .= Binary::writeShort($v);
 	}
 
-	public function getFloat(){
-		return Binary::readFloat($this->get(4));
+	public function getFloat(int $accuracy = -1){
+		return Binary::readFloat($this->get(4), $accuracy);
 	}
 
 	public function putFloat($v){
@@ -138,13 +142,14 @@ class BinaryStream extends \stdClass{
 		$this->buffer .= Binary::writeLShort($v);
 	}
 
-	public function getLFloat(){
-		return Binary::readLFloat($this->get(4));
+	public function getLFloat(int $accuracy = -1){
+		return Binary::readLFloat($this->get(4), $accuracy);
 	}
 
 	public function putLFloat($v){
 		$this->buffer .= Binary::writeLFloat($v);
 	}
+
 
 	public function getTriad(){
 		return Binary::readTriad($this->get(3));
@@ -153,6 +158,7 @@ class BinaryStream extends \stdClass{
 	public function putTriad($v){
 		$this->buffer .= Binary::writeTriad($v);
 	}
+
 
 	public function getLTriad(){
 		return Binary::readLTriad($this->get(3));
@@ -168,21 +174,6 @@ class BinaryStream extends \stdClass{
 
 	public function putByte($v){
 		$this->buffer .= chr($v);
-	}
-
-	public function getDataArray($len = 10){
-		$data = [];
-		for($i = 1; $i <= $len and !$this->feof(); ++$i){
-			$data[] = $this->get($this->getTriad());
-		}
-		return $data;
-	}
-
-	public function putDataArray(array $data = []){
-		foreach($data as $v){
-			$this->putTriad(strlen($v));
-			$this->put($v);
-		}
 	}
 
 	public function getUUID(){
@@ -209,6 +200,7 @@ class BinaryStream extends \stdClass{
 		if($nbtLen > 0){
 			$nbt = $this->get($nbtLen);
 		}
+
 		return Item::get(
 			$id,
 			$data,
@@ -274,29 +266,29 @@ class BinaryStream extends \stdClass{
 	public function getEntityId(){
 		return $this->getVarInt();
 	}
-	
+
 	public function putEntityId($v){
 		$this->putVarInt($v);
 	}
 
 	public function getBlockCoords(&$x, &$y, &$z){
 		$x = $this->getVarInt();
-		$y = $this->getByte();
+		$y = $this->getUnsignedVarInt();
 		$z = $this->getVarInt();
 	}
 
 	public function putBlockCoords($x, $y, $z){
 		$this->putVarInt($x);
-		$this->putByte($y);
+		$this->putUnsignedVarInt($y);
 		$this->putVarInt($z);
 	}
-	
+
 	public function getVector3f(&$x, &$y, &$z){
-		$x = $this->getLFloat();
-		$y = $this->getLFloat();
-		$z = $this->getLFloat();
+		$x = $this->getLFloat(4);
+		$y = $this->getLFloat(4);
+		$z = $this->getLFloat(4);
 	}
-	
+
 	public function putVector3f($x, $y, $z){
 		$this->putLFloat($x);
 		$this->putLFloat($y);

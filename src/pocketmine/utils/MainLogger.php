@@ -33,27 +33,6 @@ class MainLogger extends \AttachableThreadedLogger{
 	private $logResource;
 	/** @var MainLogger */
 	public static $logger = null;
-	
-	private $consoleCallback;
-
-	/** Extra Settings */
-	protected $write = false;
-
-	public $shouldSendMsg = "";
-	public $shouldRecordMsg = false;
-	private $lastGet = 0;
-
-	public function setSendMsg($b){
-		$this->shouldRecordMsg = $b;
-		$this->lastGet = time();
-	}
-
-	public function getMessages(){
-		$msg = $this->shouldSendMsg;
-		$this->shouldSendMsg = "";
-		$this->lastGet = time();
-		return $msg;
-	}
 
 	/**
 	 * @param string $logFile
@@ -207,19 +186,11 @@ class MainLogger extends \AttachableThreadedLogger{
 
 		$thread = \Thread::getCurrentThread();
 		if($thread === null){
-			$threadName = "Hydracon thread";
+			$threadName = "Server thread";
 		}elseif($thread instanceof Thread or $thread instanceof Worker){
 			$threadName = $thread->getThreadName() . " thread";
 		}else{
 			$threadName = (new \ReflectionClass($thread))->getShortName() . " thread";
-		}
-
-		if($this->shouldRecordMsg){
-			if((time() - $this->lastGet) >= 10) $this->shouldRecordMsg = false; // 10 secs timeout
-			else{
-				if(strlen($this->shouldSendMsg) >= 10000) $this->shouldSendMsg = "";
-				$this->shouldSendMsg .= $color . "|" . $prefix . "|" . trim($message, "\r\n") . "\n";
-			}
 		}
 
 		$message = TextFormat::toANSI(TextFormat::GREEN . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . "Hydracon 》 " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
@@ -229,10 +200,6 @@ class MainLogger extends \AttachableThreadedLogger{
 			echo $cleanMessage . PHP_EOL;
 		}else{
 			echo $message . PHP_EOL;
-		}
-
-		if(isset($this->consoleCallback)){
-			call_user_func($this->consoleCallback);
 		}
 
 		if($this->attachment instanceof \ThreadedLoggerAttachment){
@@ -247,70 +214,31 @@ class MainLogger extends \AttachableThreadedLogger{
 		}
 	}
 
-	/*public function run(){
-		$this->shutdown = false;
-		if($this->write){
-			$this->logResource = fopen($this->logFile, "a+b");
-			if(!is_resource($this->logResource)){
-				throw new \RuntimeException("Couldn't open log file");
-			}
-
-			while($this->shutdown === false){
-				if(!$this->write) {
-					fclose($this->logResource);
-					break;
-				}
-				$this->synchronized(function(){
-					while($this->logStream->count() > 0){
-						$chunk = $this->logStream->shift();
-						fwrite($this->logResource, $chunk);
-					}
-
-					$this->wait(25000);
-				});
-			}
-
-			if($this->logStream->count() > 0){
-				while($this->logStream->count() > 0){
-					$chunk = $this->logStream->shift();
-					fwrite($this->logResource, $chunk);
-				}
-			}
-
-			fclose($this->logResource);
-		}
-	}*/
-
 	public function run(){
 		$this->shutdown = false;
+		$this->logResource = fopen($this->logFile, "a+b");
+		if(!is_resource($this->logResource)){
+			throw new \RuntimeException("Couldn't open log file");
+		}
+
 		while($this->shutdown === false){
 			$this->synchronized(function(){
 				while($this->logStream->count() > 0){
 					$chunk = $this->logStream->shift();
-					if($this->write){
-						$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
-					}
+					fwrite($this->logResource, $chunk);
 				}
 
-				$this->wait(200000);
+				$this->wait(25000);
 			});
 		}
 
 		if($this->logStream->count() > 0){
 			while($this->logStream->count() > 0){
 				$chunk = $this->logStream->shift();
-				if($this->write){
-					$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
-				}
+				fwrite($this->logResource, $chunk);
 			}
 		}
-	}
 
-	public function setWrite($write){
-		$this->write = $write;
-	}
-	
-	public function setConsoleCallback($callback){
-		$this->consoleCallback = $callback;
+		fclose($this->logResource);
 	}
 }

@@ -65,7 +65,7 @@ class EntityShootBowEvent extends EntityEvent implements Cancellable{
 	}
 
 	/**
-	 * @return Entity|Projectile
+	 * @return Entity
 	 */
 	public function getProjectile(){
 		return $this->projectile;

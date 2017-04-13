@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -23,6 +23,7 @@
  * Various Utilities used around the code
  */
 namespace pocketmine\utils;
+
 use pocketmine\ThreadManager;
 
 /**
@@ -84,7 +85,7 @@ class Utils{
 			if(file_exists("/etc/machine-id")){
 				$machine .= file_get_contents("/etc/machine-id");
 			}else{
-				@exec("ifconfig", $mac);
+				@exec("ifconfig 2>/dev/null", $mac);
 				$mac = implode("\n", $mac);
 				if(preg_match_all("#HWaddr[ \t]{1,}([0-9a-f:]{17})#", $mac, $matches)){
 					foreach($matches[1] as $i => $v){
@@ -131,9 +132,9 @@ class Utils{
 		}elseif(Utils::$ip !== false and $force !== true){
 			return Utils::$ip;
 		}
-		$ip = trim(strip_tags(Utils::getURL("https://api.ipify.org")));
-		if($ip){
-			Utils::$ip = $ip;
+		$ip = trim(strip_tags(Utils::getURL("http://checkip.dyndns.org/")));
+		if(preg_match('#Current IP Address\: ([0-9a-fA-F\:\.]*)#', $ip, $matches) > 0){
+			Utils::$ip = $matches[1];
 		}else{
 			$ip = Utils::getURL("http://www.checkip.org/");
 			if(preg_match('#">([0-9a-fA-F\:\.]*)</span>#', $ip, $matches) > 0){
@@ -167,6 +168,8 @@ class Utils{
 	 * BSD => bsd
 	 * Other => other
 	 *
+	 * @param bool $recalculate
+	 *
 	 * @return string
 	 */
 	public static function getOS($recalculate = false){
@@ -192,7 +195,7 @@ class Utils{
 				self::$os = "other";
 			}
 		}
-		
+
 		return self::$os;
 	}
 
@@ -331,30 +334,6 @@ class Utils{
 		return preg_replace('#([^\x20-\x7E])#', '.', $str);
 	}
 
-	/**
-	 * This function tries to get all the entropy available in PHP, and distills it to get a good RNG.
-	 *
-	 * This function simply forwards to the PHP random_bytes function.
-	 *
-	 * @param int    $length       default 16, Number of bytes to generate
-	 * @param bool   $secure       default true, Generate secure distilled bytes, slower
-	 * @param bool   $raw          default true, returns a binary string if true, or an hexadecimal one
-	 * @param string $startEntropy default null, adds more initial entropy
-	 * @param int    &$rounds      Will be set to the number of rounds taken
-	 * @param int    &$drop        Will be set to the amount of dropped bytes
-	 *
-	 * @deprecated prefer PHP 7 random_bytes()
-	 * @return string
-	 */
-	public static function getRandomBytes($length = 16, $secure = true, $raw = true, $startEntropy = "", &$rounds = 0, &$drop = 0){
-		$raw_output = random_bytes($length);
-		if ($raw) {
-			return $raw_output;
-		} else {
-			return bin2hex($raw_output);
-		}
-	}
-
 	/*
 	public static function angle3D($pos1, $pos2){
 		$X = $pos1["x"] - $pos2["x"];
@@ -369,14 +348,16 @@ class Utils{
 
 	/**
 	 * GETs an URL using cURL
+	 * NOTE: This is a blocking operation and can take a significant amount of time. It is inadvisable to use this method on the main thread.
 	 *
-	 * @param     $page
-	 * @param int $timeout default 10
-	 * @param array $extraHeaders
+	 * @param        $page
+	 * @param int    $timeout default 10
+	 * @param array  $extraHeaders
+	 * @param string &$err Will be set to the output of curl_error(). Use this to retrieve errors that occured during the operation.
 	 *
-	 * @return bool|mixed
+	 * @return bool|mixed false if an error occurred, mixed data if successful.
 	 */
-	public static function getURL($page, $timeout = 10, array $extraHeaders = []){
+	public static function getURL($page, $timeout = 10, array $extraHeaders = [], &$err = null){
 		if(Utils::$online === false){
 			return false;
 		}
@@ -393,6 +374,7 @@ class Utils{
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int) $timeout);
 		curl_setopt($ch, CURLOPT_TIMEOUT, (int) $timeout);
 		$ret = curl_exec($ch);
+		$err = curl_error($ch);
 		curl_close($ch);
 
 		return $ret;
@@ -400,15 +382,17 @@ class Utils{
 
 	/**
 	 * POSTs data to an URL
+	 * NOTE: This is a blocking operation and can take a significant amount of time. It is inadvisable to use this method on the main thread.
 	 *
 	 * @param              $page
 	 * @param array|string $args
 	 * @param int          $timeout
-	 * @param array $extraHeaders
+	 * @param array        $extraHeaders
+	 * @param string       &$err Will be set to the output of curl_error(). Use this to retrieve errors that occured during the operation.
 	 *
-	 * @return bool|mixed
+	 * @return bool|mixed false if an error occurred, mixed data if successful.
 	 */
-	public static function postURL($page, $args, $timeout = 10, array $extraHeaders = []){
+	public static function postURL($page, $args, $timeout = 10, array $extraHeaders = [], &$err = null){
 		if(Utils::$online === false){
 			return false;
 		}
@@ -427,6 +411,7 @@ class Utils{
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int) $timeout);
 		curl_setopt($ch, CURLOPT_TIMEOUT, (int) $timeout);
 		$ret = curl_exec($ch);
+		$err = curl_error($ch);
 		curl_close($ch);
 
 		return $ret;
@@ -450,5 +435,4 @@ class Utils{
 		}
 		return $hash;
 	}
-
 }

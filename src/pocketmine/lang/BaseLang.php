@@ -23,10 +23,41 @@ namespace pocketmine\lang;
 
 use pocketmine\event\TextContainer;
 use pocketmine\event\TranslationContainer;
+use pocketmine\utils\MainLogger;
 
 class BaseLang{
 
 	const FALLBACK_LANGUAGE = "eng";
+
+	public static function getLanguageList(string $path = "") : array{
+		if($path === ""){
+			$path = \pocketmine\PATH . "src/pocketmine/lang/locale/";
+		}
+
+		if(is_dir($path)){
+			$allFiles = scandir($path);
+
+			if($allFiles !== false){
+				$files = array_filter($allFiles, function($filename){
+					return substr($filename, -4) === ".ini";
+				});
+
+				$result = [];
+
+				foreach($files as $file){
+					$strings = [];
+					self::loadLang($path . $file, $strings);
+					if(isset($strings["language.name"])){
+						$result[substr($file, 0, -4)] = $strings["language.name"];
+					}
+				}
+
+				return $result;
+			}
+		}
+
+		return [];
+	}
 
 	protected $langName;
 
@@ -41,11 +72,15 @@ class BaseLang{
 			$path = \pocketmine\PATH . "src/pocketmine/lang/locale/";
 		}
 
-		$this->loadLang($path . $this->langName . ".ini", $this->lang);
-		$this->loadLang($path . $fallback . ".ini", $this->fallbackLang);
+		if(!self::loadLang($file = $path . $this->langName . ".ini", $this->lang)){
+			MainLogger::getLogger()->error("Missing required language file $file");
+		}
+		if(!self::loadLang($file = $path . $fallback . ".ini", $this->fallbackLang)){
+			MainLogger::getLogger()->error("Missing required language file $file");
+		}
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return $this->get("language.name");
 	}
 
@@ -53,34 +88,19 @@ class BaseLang{
 		return $this->langName;
 	}
 
-	protected function loadLang($path, array &$d){
-		if(file_exists($path) and strlen($content = file_get_contents($path)) > 0){
-			foreach(explode("\n", $content) as $line){
-				$line = trim($line);
-				if($line === "" or $line{0} === "#"){
-					continue;
-				}
-
-				$t = explode("=", $line);
-				if(count($t) < 2){
-					continue;
-				}
-
-				$key = trim(array_shift($t));
-				$value = trim(implode("=", $t));
-
-				if($value === ""){
-					continue;
-				}
-
-				$d[$key] = $value;
-			}
+	protected static function loadLang($path, array &$d){
+		if(file_exists($path)){
+			$d = parse_ini_file($path, false, INI_SCANNER_RAW);
+			return true;
+		}else{
+			return false;
 		}
 	}
 
 	/**
-	 * @param string   $str
-	 * @param string[] $params
+	 * @param string      $str
+	 * @param string[]    $params
+	 * @param string|null $onlyPrefix
 	 *
 	 * @return string
 	 */
@@ -92,7 +112,7 @@ class BaseLang{
 			$baseText = str_replace("{%$i}", $this->parseTranslation((string) $p), $baseText, $onlyPrefix);
 		}
 
-		return $baseText;
+		return str_replace("%0", "", $baseText); //fixes a client bug where %0 in translation will cause freeze
 	}
 
 	public function translate(TextContainer $c){

@@ -39,10 +39,12 @@ class CrashDump{
 	private $path;
 
 	public function __construct(Server $server){
-          if(!file_exists($server->getDataPath()."Hydracon_CrashDump")) @mkdir($server->getDataPath()."Hydracon_CrashDump");
 		$this->time = time();
 		$this->server = $server;
-		$this->path = $this->server->getDataPath() . "Hydracon_CrashDump/Hydracon_CrashDump_" . date("D_M_j-H.i.s-T_Y", $this->time) . ".log";
+		if(!is_dir($this->server->getDataPath() . "crashdumps")){
+			mkdir($this->server->getDataPath() . "crashdumps");
+		}
+		$this->path = $this->server->getDataPath() . "crashdumps/" . date("D_M_j-H.i.s-T_Y", $this->time) . ".log";
 		$this->fp = @fopen($this->path, "wb");
 		if(!is_resource($this->fp)){
 			throw new \RuntimeException("Could not create Crash Dump");
@@ -141,7 +143,7 @@ class CrashDump{
 			$error = $lastExceptionError;
 		}else{
 			$error = (array) error_get_last();
-			$error["trace"] = @getTrace(3);
+			$error["trace"] = getTrace(4); //Skipping CrashDump->baseCrash, CrashDump->construct, Server->crashDump
 			$errorConversion = [
 				E_ERROR => "E_ERROR",
 				E_WARNING => "E_WARNING",
@@ -161,7 +163,7 @@ class CrashDump{
 			];
 			$error["fullFile"] = $error["file"];
 			$error["file"] = cleanPath($error["file"]);
-			$error["type"] = isset($errorConversion[$error["type"]]) ? $errorConversion[$error["type"]] : $error["type"];
+			$error["type"] = $errorConversion[$error["type"]] ?? $error["type"];
 			if(($pos = strpos($error["message"], "\n")) !== false){
 				$error["message"] = substr($error["message"], 0, $pos);
 			}

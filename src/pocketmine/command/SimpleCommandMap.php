@@ -57,11 +57,10 @@ use pocketmine\command\defaults\TeleportCommand;
 use pocketmine\command\defaults\TellCommand;
 use pocketmine\command\defaults\TimeCommand;
 use pocketmine\command\defaults\TimingsCommand;
+use pocketmine\command\defaults\TransferServerCommand;
 use pocketmine\command\defaults\VanillaCommand;
 use pocketmine\command\defaults\VersionCommand;
 use pocketmine\command\defaults\WhitelistCommand;
-use pocketmine\command\defaults\MakeServerCommand;
-use pocketmine\command\defaults\SummonCommand;
 use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
@@ -117,9 +116,7 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new TimeCommand("time"));
 		$this->register("pocketmine", new TimingsCommand("timings"));
 		$this->register("pocketmine", new ReloadCommand("reload"));
-          $this->register("pocketmine",new MakeServerCommand("makeserver"));
-          $this->register("pocketmine", new SummonCommand("summon"));
-$this->register("pocketmine",new MakeServerCommand("makeserver"));
+		$this->register("pocketmine", new TransferServerCommand("transferserver"));
 
 		if($this->server->getProperty("debug.commands", false)){
 			$this->register("pocketmine", new StatusCommand("status"));
@@ -139,7 +136,7 @@ $this->register("pocketmine",new MakeServerCommand("makeserver"));
 		if($label === null){
 			$label = $command->getName();
 		}
-		$label = strtolower(trim($label));
+		$label = trim($label);
 		$fallbackPrefix = strtolower(trim($fallbackPrefix));
 
 		$registered = $this->registerAlias($command, false, $fallbackPrefix, $label);
@@ -180,15 +177,35 @@ $this->register("pocketmine",new MakeServerCommand("makeserver"));
 		return true;
 	}
 
-	public function dispatch(CommandSender $sender, $commandLine){
-		$args = explode(" ", $commandLine);
+	/**
+	 * Returns a command to match the specified command line, or null if no matching command was found.
+	 * This method is intended to provide capability for handling commands with spaces in their name.
+	 * The referenced parameters will be modified accordingly depending on the resulting matched command.
+	 *
+	 * @param string   &$commandName
+	 * @param string[] &$args
+	 *
+	 * @return Command|null
+	 */
+	public function matchCommand(string &$commandName, array &$args){
+		$count = min(count($args), 255);
 
-		if(count($args) === 0){
-			return false;
+		for($i = 0; $i < $count; ++$i){
+			$commandName .= array_shift($args);
+			if(($command = $this->getCommand($commandName)) instanceof Command){
+				return $command;
+			}
+
+			$commandName .= " ";
 		}
 
-		$sentCommandLabel = strtolower(array_shift($args));
-		$target = $this->getCommand($sentCommandLabel);
+		return null;
+	}
+
+	public function dispatch(CommandSender $sender, $commandLine){
+		$args = explode(" ", $commandLine);
+		$sentCommandLabel = "";
+		$target = $this->matchCommand($sentCommandLabel, $args);
 
 		if($target === null){
 			return false;
@@ -216,11 +233,7 @@ $this->register("pocketmine",new MakeServerCommand("makeserver"));
 	}
 
 	public function getCommand($name){
-		if(isset($this->knownCommands[$name])){
-			return $this->knownCommands[$name];
-		}
-
-		return null;
+		return $this->knownCommands[$name] ?? null;
 	}
 
 	/**
@@ -238,7 +251,7 @@ $this->register("pocketmine",new MakeServerCommand("makeserver"));
 		$values = $this->server->getCommandAliases();
 
 		foreach($values as $alias => $commandStrings){
-			if(strpos($alias, ":") !== false or strpos($alias, " ") !== false){
+			if(strpos($alias, ":") !== false){
 				$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.command.alias.illegal", [$alias]));
 				continue;
 			}
@@ -246,18 +259,31 @@ $this->register("pocketmine",new MakeServerCommand("makeserver"));
 			$targets = [];
 
 			$bad = "";
+			$recursive = "";
 			foreach($commandStrings as $commandString){
 				$args = explode(" ", $commandString);
-				$command = $this->getCommand($args[0]);
+				$commandName = "";
+				$command = $this->matchCommand($commandName, $args);
+
 
 				if($command === null){
 					if(strlen($bad) > 0){
 						$bad .= ", ";
 					}
 					$bad .= $commandString;
+				}elseif($commandName === $alias){
+					if($recursive !== ""){
+						$recursive .= ", ";
+					}
+					$recursive .= $commandString;
 				}else{
 					$targets[] = $commandString;
 				}
+			}
+
+			if($recursive !== ""){
+				$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.command.alias.recursive", [$alias, $recursive]));
+				continue;
 			}
 
 			if(strlen($bad) > 0){

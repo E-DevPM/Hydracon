@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -40,7 +40,7 @@ class Cactus extends Transparent{
 		$this->meta = $meta;
 	}
 
-	public function getHardness() {
+	public function getHardness(){
 		return 0.4;
 	}
 
@@ -48,11 +48,11 @@ class Cactus extends Transparent{
 		return true;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Cactus";
 	}
 
-	protected function recalculateBoundingBox() {
+	protected function recalculateBoundingBox(){
 
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
@@ -66,9 +66,7 @@ class Cactus extends Transparent{
 
 	public function onEntityCollide(Entity $entity){
 		$ev = new EntityDamageByBlockEvent($this, $entity, EntityDamageEvent::CAUSE_CONTACT, 1);
-		if($entity->attack($ev->getFinalDamage(), $ev) === true){
-			$ev->useArmors();
-		}
+		$entity->attack($ev->getFinalDamage(), $ev);
 	}
 
 	public function onUpdate($type){
@@ -125,7 +123,7 @@ class Cactus extends Transparent{
 		return false;
 	}
 
-	public function getDrops(Item $item) : array {
+	public function getDrops(Item $item){
 		return [
 			[$this->id, 0, 1],
 		];
