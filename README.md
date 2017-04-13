@@ -1,14 +1,11 @@
 # [Hydracon]
 
-__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities.__
+__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities coming from Tesseract / Elywing / PMMP / Genisys.__
 
-# Download Hydracon Updated 1.0.6 !
- - You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
+# Download Hydracon, it's a cool software !
+ - You can download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
 # /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
-
-- Hydracon and based on the software PocketMine-MP
-
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Lesser General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
@@ -23,21 +20,17 @@ __Hydracon is a free, open-source software that creates Minecraft: Pocket Editio
 	along with this program.  If not, click __[here](http://www.gnu.org/licenses/)__.
 
 
-### Hydracon, a fork of PocketMine-MP, modified by
+### Hydracon, a thing coming from the hole of PocketMine-MP, modified by
 
-### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/)
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
+### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/) [The best dev of all the times]
 
-### [Twitter @PokeyvalGamer](https://twitter.com/PokeyvalGamer/)
-
-## Third-party Libraries/Protocols Used
-* __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
-* __[PHP mbstring](http://php.net/manual/en/book.mbstring.php)__
-* __[PHP SQLite3](http://php.net/manual/en/book.sqlite3.php)__
-* __[PHP BCMath](http://php.net/manual/en/book.bc.php)__
-* __[PHP pthreads](http://pthreads.org/)__ by _[krakjoe](https://github.com/krakjoe)_: Threading for PHP - Share Nothing, Do Everything.
-* __[PHP YAML](https://code.google.com/p/php-yaml/)__ by _Bryan Davis_: The Yaml PHP Extension provides a wrapper to the LibYAML library.
-* __[LibYAML](http://pyyaml.org/wiki/LibYAML)__ by _Kirill Simonov_: A YAML 1.1 parser and emitter written in C.
-* __[cURL](http://curl.haxx.se/)__: cURL is a command line tool for transferring data with URL syntax
-* __[Zlib](http://www.zlib.net/)__: A Massively Spiffy Yet Delicately Unobtrusive Compression Library
-* __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
-* __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
