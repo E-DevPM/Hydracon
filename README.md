@@ -1,6 +1,6 @@
 # [Hydracon]
 
-__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities cominf from Tesseract / Elywing / PMMP / Genisys / BlueLight / PocketMine-MP.__
+__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities coming from Tesseract / Elywing / PMMP / Genisys / BlueLight / PocketMine-MP.__
 
 # Download Hydracon, it's a cool software !
  - You can download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
