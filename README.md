@@ -1,9 +1,9 @@
-# ![Hydracon]
+# [Hydracon]
 
-__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 Beta servers and allows extending its functionalities.__
+__Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities.__
 
-# Download Hydracon Updated 1.0.0 !
- - _You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
+# Download Hydracon Updated 1.0.6 !
+ - You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
 # /!\ Please use this start.sh and rename "Hydracon.phar" or rename the phar "PocketMine-MP.phar" for use other  than start.sh  /!\
 
@@ -28,8 +28,6 @@ __Hydracon is a free, open-source software that creates Minecraft: Pocket Editio
 ### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/)
 
 ### [Twitter @PokeyvalGamer](https://twitter.com/PokeyvalGamer/)
-  
-### [Twitter @FriscowzMCPE](https://twitter.com/FRISCOWZMCPE/)
 
 ## Third-party Libraries/Protocols Used
 * __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
