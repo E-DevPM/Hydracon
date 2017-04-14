@@ -2191,15 +2191,18 @@ class Server{
 
 		$p->dataPacket($pk);
 	}
+	
+ 	private function checkTickUpdates($currentTick, $tickTime){
+  		foreach($this->players as $p){
+  			if(!$p->loggedIn and ($tickTime - $p->creationTime) >= 10){
+ 				$p->close("", "Login timeout");
+ 			}elseif($this->alwaysTickPlayers){
+                  $p->close("", "Login timeout");
+               }elseif($this->alwaysTickPlayers){
+  				$p->onUpdate($currentTick);
+  			}
+  		}	
 
-	private function checkTickUpdates($currentTick, $tickTime){
-		foreach($this->players as $p){
-			if(!$p->loggedIn and ($tickTime - $p->creationTime) >= 10){
-				$p->close("", "Login timeout");
-			}elseif($this->alwaysTickPlayers){
-				$p->onUpdate($currentTick);
-			}
-		}
 
 		//Do level ticks
 		foreach($this->getLevels() as $level){
