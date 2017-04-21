@@ -1377,7 +1377,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 	}
 
-	/*protected function processMovement($tickDiff){
+	protected function processMovement($tickDiff){
 		if(!$this->isAlive() or !$this->spawned or $this->newPosition === null or $this->teleportPosition !== null or $this->isSleeping()){
 			return;
 		}
@@ -1519,7 +1519,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return true;
 		}
 		return false;
-	}*/
+	}
 
 	protected function updateMovement(){
 
@@ -1566,6 +1566,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->timings->startTiming();
 
 		if($this->spawned){
+			$this->processMovement($tickDiff);
 			$this->entityBaseTick($tickDiff);
 
 			if(!$this->isSpectator() and $this->speed !== null){
@@ -3068,7 +3069,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @param string $reason  Reason showed in console
 	 * @param bool   $notify
 	 */
-	public final function close($message = "", $reason = "generic reason", $notify = true){
+	final public function close($message = "", $reason = "generic reason", $notify = true){
 
 		if($this->connected and !$this->closed){
 			if($notify and strlen((string) $reason) > 0){
