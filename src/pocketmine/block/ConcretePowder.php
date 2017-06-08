@@ -19,50 +19,44 @@
 
 namespace pocketmine\block;
 
-use pocketmine\item\Item;
-use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\item\Tool;
 
-class EndRod extends Flowable{
-	protected $id = self::END_ROD;
+class ConcretePowder extends Fallable{
+
+	protected $id = self::CONCRETE_POWDER;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getLightLevel(){
-		return 14;
+	public function getHardness(){
+		return 0.5;
+	}
+
+	public function getToolType(){
+		return Tool::TYPE_SHOVEL;
 	}
 
 	public function getName(){
-		return "End Rod";
-	}
-
-	public function getResistance(){
-		return 0;
-	}
-
-	public function getHardness(){
-		return 0;
-	}
-
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$faces = [
-			0 => 0,
-			1 => 1,
-			2 => 3,
-			3 => 2,
-			4 => 5,
-			5 => 4,
+		static $names = [
+			0 => "White Concrete Powder",
+			1 => "Orange Concrete Powder",
+			2 => "Magenta Concrete Powder",
+			3 => "Light Blue Concrete Powder",
+			4 => "Yellow Concrete Powder",
+			5 => "Lime Concrete Powder",
+			6 => "Pink Concrete Powder",
+			7 => "Gray Concrete Powder",
+			8 => "Silver Concrete Powder",
+			9 => "Cyan Concrete Powder",
+			10 => "Purple Concrete Powder",
+			11 => "Blue Concrete Powder",
+			12 => "Brown Concrete Powder",
+			13 => "Green Concrete Powder",
+			14 => "Red Concrete Powder",
+			15 => "Black Concrete Powder",
 		];
-		$this->meta = ($target->getId() === self::END_ROD && $faces[$face] == $target->getDamage()) ? Vector3::getOppositeSide($faces[$face]) : $faces[$face];
-		$this->getLevel()->setBlock($block, $this, true, true);
-		return true;
+		return $names[$this->meta & 0x0f];
 	}
 
-	public function getDrops(Item $item): array{
-		return [
-			[$this->id, 0, 1],
-		];
-	}
 }

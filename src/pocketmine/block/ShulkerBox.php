@@ -19,50 +19,44 @@
 
 namespace pocketmine\block;
 
-use pocketmine\item\Item;
-use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\item\Tool;
 
-class EndRod extends Flowable{
-	protected $id = self::END_ROD;
-
+class ShulkerBox extends Solid{
+	
+	protected $id = self::SHULKER_BOX;
+	
 	public function __construct($meta = 0){
 		$this->meta = $meta;
+		
 	}
-
-	public function getLightLevel(){
-		return 14;
-	}
-
-	public function getName(){
-		return "End Rod";
-	}
-
-	public function getResistance(){
-		return 0;
-	}
-
+	
 	public function getHardness(){
-		return 0;
+		return 6;
 	}
-
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$faces = [
-			0 => 0,
-			1 => 1,
-			2 => 3,
-			3 => 2,
-			4 => 5,
-			5 => 4,
-		];
-		$this->meta = ($target->getId() === self::END_ROD && $faces[$face] == $target->getDamage()) ? Vector3::getOppositeSide($faces[$face]) : $faces[$face];
-		$this->getLevel()->setBlock($block, $this, true, true);
-		return true;
+	
+	public function getToolType(){
+		return Tool::TYPE_PICKAXE;
 	}
-
-	public function getDrops(Item $item): array{
-		return [
-			[$this->id, 0, 1],
+	
+	public function getName(){
+		static $names = [
+			0 => "White Shulker Box",
+			1 => "Orange Shulker Box",
+			2 => "Magenta Shulker Box",
+			3 => "Light Blue Shulker Box",
+			4 => "Yellow Shulker Box",
+			5 => "Lime Shulker Box",
+			6 => "Pink Shulker Box",
+			7 => "Gray Shulker Box",
+			8 => "Silver Shulker Box",
+			9 => "Cyan Shulker Box",
+			10 => "Purple Shulker Box",
+			11 => "Blue Shulker Box",
+			12 => "Brown Shulker Box",
+			13 => "Green Shulker Box",
+			14 => "Red Shulker Box",
+			15 => "Black Shulker Box",
 		];
+		return $names[$this->meta & 0x0f];
 	}
 }
