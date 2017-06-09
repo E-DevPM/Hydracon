@@ -47,7 +47,7 @@ class LoginPacket extends DataPacket{
 
 	public function decode(){
 		$this->protocol = $this->getInt();
-		if(!(Info::CURRENT_PROTOCOL)){
+		if($this->protocol !== Info::CURRENT_PROTOCOL)){
 			$this->buffer = null;
 			return;
 		}
