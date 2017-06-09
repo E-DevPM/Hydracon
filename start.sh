@@ -36,6 +36,8 @@ fi
 if [ "$POCKETMINE_FILE" == "" ]; then
 	if [ -f ./PocketMine-MP.phar ]; then
 		POCKETMINE_FILE="./PocketMine-MP.phar"
+	elif [ -f ./Hydracon.phar ]; then
+		POCKETMINE_FILE="./Hydracon.phar"
 	elif [ -f ./src/pocketmine/PocketMine.php ]; then
 		POCKETMINE_FILE="./src/pocketmine/PocketMine.php"
 	else
