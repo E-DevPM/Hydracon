@@ -25,9 +25,13 @@ __Hydracon is a free, open-source software that creates Minecraft: Pocket Editio
 
 ### Hydracon, a fork or *spoon* of PMMP, modified by
 
-### [Twitter @TutoGamerWalid_](https://twitter.com/TutoGamerWalid/)
+### [Twitter @_Waaliid](https://twitter.com/_Waaliid/)
 
 ### [Twitter @PokeyvalGamer](https://twitter.com/PokeyvalGamer/)
+
+### [Twitter @armagandon159753](https://twitter.com/armagandon159753/)
+
+### [Twitter @ImCookieGame](https://twitter.com/ImCookieGame/)
 
 ## Third-party Libraries/Protocols Used
 * __[PHP Sockets](http://php.net/manual/en/book.sockets.php)__
