@@ -72,7 +72,7 @@ class Enchantment{
 
 	const TYPE_INVALID = -1;
 
-	const PROTECTION = 0;
+	const TYPE_ARMOR_PROTECTION = 0;
 	const TYPE_ARMOR_FIRE_PROTECTION = 1;
 	const TYPE_ARMOR_FEATHER_FALLING = 2;
 	const TYPE_ARMOR_BLAST_PROTECTION = 3;
@@ -140,7 +140,7 @@ class Enchantment{
 		self::$enchantments[self::TYPE_ARMOR_BLAST_PROTECTION] = new Enchantment(self::TYPE_ARMOR_BLAST_PROTECTION, "%enchantment.protect.explosion", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_ARMOR);
 		self::$enchantments[self::TYPE_ARMOR_PROJECTILE_PROTECTION] = new Enchantment(self::TYPE_ARMOR_PROJECTILE_PROTECTION, "%enchantment.protect.projectile", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_ARMOR);
 		self::$enchantments[self::TYPE_ARMOR_THORNS] = new Enchantment(self::TYPE_ARMOR_THORNS, "%enchantment.protect.thorns", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_SWORD);
-		self::$enchantments[self::TYPE_WATER_BREATHING] = new Enchantment(self::TYPE_WATER_BREATING, "%enchantment.protect.waterbrething", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_FEET);
+		self::$enchantments[self::TYPE_WATER_BREATHING] = new Enchantment(self::TYPE_WATER_BREATHING, "%enchantment.protect.waterbrething", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_FEET);
 		self::$enchantments[self::TYPE_WATER_DEPTH_SPIDER] = new Enchantment(self::TYPE_WATER_DEPTH_SPIDER, "%enchantment.waterspeed", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_FEET);
 		self::$enchantments[self::TYPE_WATER_AFFINITY] = new Enchantment(self::TYPE_WATER_AFFINITY, "%enchantment.protect.wateraffinity", self::RARITY_UNCOMMON, self::ACTIVATION_EQUIP, self::SLOT_FEET);
 

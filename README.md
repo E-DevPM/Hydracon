@@ -8,7 +8,7 @@ __Hydracon is a free, open-source software that creates Minecraft: Pocket Editio
 
  - You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
-> Kindly use the provided start.sh, rename the phar to Hydracon.phar or PocletMine-MP.phar
+> Kindly use the provided start.sh, rename the phar to Hydracon.phar or PocketMine-MP.phar
 
 - Hydracon and based on the software PocketMine-MP
 
