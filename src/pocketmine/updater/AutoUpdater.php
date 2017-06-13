@@ -24,7 +24,6 @@ namespace pocketmine\updater;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use pocketmine\utils\Utils;
 use pocketmine\utils\VersionString;
 
 class AutoUpdater{
@@ -114,7 +113,7 @@ class AutoUpdater{
 	 * Schedules an AsyncTask to check for an update.
 	 */
 	public function doCheck(){
-		//$this->server->getScheduler()->scheduleAsyncTask(new UpdateCheckTask($this->endpoint, $this->getChannel()));
+		$this->server->getScheduler()->scheduleAsyncTask(new UpdateCheckTask($this->endpoint, $this->getChannel()));
 	}
 
 	/**

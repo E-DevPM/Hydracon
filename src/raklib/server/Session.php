@@ -15,7 +15,6 @@
 
 namespace raklib\server;
 
-use raklib\Binary;
 use raklib\protocol\ACK;
 use raklib\protocol\CLIENT_CONNECT_DataPacket;
 use raklib\protocol\CLIENT_DISCONNECT_DataPacket;
@@ -34,8 +33,6 @@ use raklib\protocol\PacketReliability;
 use raklib\protocol\PING_DataPacket;
 use raklib\protocol\PONG_DataPacket;
 use raklib\protocol\SERVER_HANDSHAKE_DataPacket;
-use raklib\protocol\UNCONNECTED_PING;
-use raklib\protocol\UNCONNECTED_PONG;
 use raklib\RakLib;
 
 class Session{
@@ -57,7 +54,7 @@ class Session{
 	private $address;
 	private $port;
 	private $state = self::STATE_UNCONNECTED;
-	private $mtuSize = 508; //(Max IP Header Size) — (UDP Header Size) = 576 — 60 — 8 = 508
+	private $mtuSize = 548; //Min size
 	private $id = 0;
 	private $splitID = 0;
 
@@ -308,7 +305,7 @@ class Session{
 			$this->addToQueue($packet, $flags);
 		}
 	}
-
+	
 	private function handleSplit(EncapsulatedPacket $packet){
 		if($packet->splitCount >= self::MAX_SPLIT_SIZE or $packet->splitIndex >= self::MAX_SPLIT_SIZE or $packet->splitIndex < 0){
 			return;
@@ -519,8 +516,8 @@ class Session{
 			}elseif($this->state === self::STATE_CONNECTING_1 and $packet instanceof OPEN_CONNECTION_REQUEST_2){
 				$this->id = $packet->clientID;
 				if($packet->serverPort === $this->sessionManager->getPort() or !$this->sessionManager->portChecking){
- 					$this->mtuSize = min(abs($packet->mtuSize), 1432);  //MTU — (Max IP Header Size) — (UDP Header Size) = 1500 — 60 — 8 = 1432 
- 					$pk = new OPEN_CONNECTION_REPLY_2();
+					$this->mtuSize = min(abs($packet->mtuSize), 1464); //Max size, do not allow creating large buffers to fill server memory
+					$pk = new OPEN_CONNECTION_REPLY_2();
 					$pk->mtuSize = $this->mtuSize;
 					$pk->serverID = $this->sessionManager->getID();
 					$pk->clientAddress = $this->address;
@@ -533,7 +530,8 @@ class Session{
 	}
 
 	public function close(){
-		$this->addEncapsulatedToQueue(EncapsulatedPacket::fromBinary("\x60\x00\x08\x00\x00\x00\x00\x00\x00\x00\x15")); //CLIENT_DISCONNECT packet 0x15
+		$data = "\x60\x00\x08\x00\x00\x00\x00\x00\x00\x00\x15";
+		$this->addEncapsulatedToQueue(EncapsulatedPacket::fromBinary($data)); //CLIENT_DISCONNECT packet 0x15
 		$this->sessionManager = null;
 	}
 }

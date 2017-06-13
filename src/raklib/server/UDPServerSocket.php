@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ *  ____            _        _   __  __ _                  __  __ ____  
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,8 +33,8 @@ class UDPServerSocket{
 			socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 0);
 			$this->setSendBuffer(1024 * 1024 * 8)->setRecvBuffer(1024 * 1024 * 8);
 		}else{
-			$logger->critical("**** FAILED TO BIND TO " . $interface . ":" . $port . "!", true, true, 0);
-			$logger->critical("Perhaps a server is already running on that port?", true, true, 0);
+			$logger->critical("**** FAILED TO BIND TO " . $interface . ":" . $port . "!");
+			$logger->critical("Perhaps a server is already running on that port?");
 			exit(1);
 		}
 		socket_set_nonblock($this->socket);

@@ -54,6 +54,8 @@ class Block extends Position implements BlockIds, Metadatable{
 	public static $hardness = null;
 	/** @var \SplFixedArray */
 	public static $transparent = null;
+	/** @var \SplFixedArray */
+	public static $diffusesSkyLight = null;
 
 	protected $id;
 	protected $meta = 0;
@@ -70,6 +72,7 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$solid = new \SplFixedArray(256);
 			self::$hardness = new \SplFixedArray(256);
 			self::$transparent = new \SplFixedArray(256);
+			self::$diffusesSkyLight = new \SplFixedArray(256);
 			self::$list[self::AIR] = Air::class;
 			self::$list[self::STONE] = Stone::class;
 			self::$list[self::GRASS] = Grass::class;
@@ -103,8 +106,6 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::COBWEB] = Cobweb::class;
 			self::$list[self::TALL_GRASS] = TallGrass::class;
 			self::$list[self::DEAD_BUSH] = DeadBush::class;
-			self::$list[self::CONCRETE] = Concrete::class;
-			self::$list[self::CONCRETE_POWDER] = ConcretePowder::class;
 			self::$list[self::WOOL] = Wool::class;
 			self::$list[self::DANDELION] = Dandelion::class;
 			self::$list[self::RED_FLOWER] = Flower::class;
@@ -164,24 +165,6 @@ class Block extends Position implements BlockIds, Metadatable{
 
 			self::$list[self::LIT_PUMPKIN] = LitPumpkin::class;
 			self::$list[self::CAKE_BLOCK] = Cake::class;
-			
-			self::$list[self::SHULKER_BOX] = ShulkerBox::class;
-			self::$list[self::PURPLE_GLAZED_TERRACOTTA] = PurpleGlazedTerracotta::class;
-			self::$list[self::WHITE_GLAZED_TERRACOTTA] = WhiteGlazedTerracotta::class;
-			self::$list[self::ORANGE_GLAZED_TERRACOTTA] = OrangeGlazedTerracotta::class;
-			self::$list[self::MAGENTA_GLAZED_TERRACOTTA] = MagentaGlazedTerracotta::class;
-			self::$list[self::LIGHT_BLUE_GLAZED_TERRACOTTA] = LightBlueGlazedTerracotta::class;
-			self::$list[self::YELLOW_GLAZED_TERRACOTTA] = YellowGlazedTerracotta::class;
-			self::$list[self::LIME_GLAZED_TERRACOTTA] = LimeGlazedTerracotta::class;
-			self::$list[self::PINK_GLAZED_TERRACOTTA] = PinkGlazedTerracotta::class;
-			self::$list[self::GRAY_GLAZED_TERRACOTTA] = GrayGlazedTerracotta::class;
-			self::$list[self::SILVER_GLAZED_TERRACOTTA] = SilverGlazedTerracotta::class;
-			self::$list[self::CYAN_GLAZED_TERRACOTTA] = CyanGlazedTerracotta::class;
-			self::$list[self::BLUE_GLAZED_TERRACOTTA] = BlueGlazedTerracotta::class;
-			self::$list[self::BROWN_GLAZED_TERRACOTTA] = BrownGlazedTerracotta::class;
-			self::$list[self::GREEN_GLAZED_TERRACOTTA] = GreenGlazedTerracotta::class;
-			self::$list[self::RED_GLAZED_TERRACOTTA] = RedGlazedTerracotta::class;
-			self::$list[self::BLACK_GLAZED_TERRACOTTA] = BlackGlazedTerracotta::class;
 
 			self::$list[self::TRAPDOOR] = Trapdoor::class;
 
@@ -274,31 +257,20 @@ class Block extends Position implements BlockIds, Metadatable{
 					for($data = 0; $data < 16; ++$data){
 						self::$fullList[($id << 4) | $data] = new $class($data);
 					}
-
-					self::$solid[$id] = $block->isSolid();
-					self::$transparent[$id] = $block->isTransparent();
-					self::$hardness[$id] = $block->getHardness();
-					self::$light[$id] = $block->getLightLevel();
-
-					if($block->isSolid()){
-						if($block->isTransparent()){
-							if($block instanceof Liquid or $block instanceof Ice){
-								self::$lightFilter[$id] = 2;
-							}else{
-								self::$lightFilter[$id] = 1;
-							}
-						}else{
-							self::$lightFilter[$id] = 15;
-						}
-					}else{
-						self::$lightFilter[$id] = 1;
-					}
 				}else{
-					self::$lightFilter[$id] = 1;
+					$block = new UnknownBlock($id);
+
 					for($data = 0; $data < 16; ++$data){
 						self::$fullList[($id << 4) | $data] = new UnknownBlock($id, $data);
 					}
 				}
+
+				self::$solid[$id] = $block->isSolid();
+				self::$transparent[$id] = $block->isTransparent();
+				self::$hardness[$id] = $block->getHardness();
+				self::$light[$id] = $block->getLightLevel();
+				self::$lightFilter[$id] = $block->getLightFilter() + 1;
+				self::$diffusesSkyLight[$id] = $block->diffusesSkyLight();
 			}
 		}
 	}
@@ -440,6 +412,29 @@ class Block extends Position implements BlockIds, Metadatable{
 	}
 
 	/**
+	 * Returns the amount of light this block will filter out when light passes through this block.
+	 * This value is used in light spread calculation.
+	 *
+	 * @return int 0-15
+	 */
+	public function getLightFilter() : int{
+		return 15;
+	}
+
+	/**
+	 * Returns whether this block will diffuse sky light passing through it vertically.
+	 * Diffusion means that full-strength sky light passing through this block will not be reduced, but will start being filtered below the block.
+	 * Examples of this behaviour include leaves and cobwebs.
+	 *
+	 * Light-diffusing blocks are included by the heightmap.
+	 *
+	 * @return bool
+	 */
+	public function diffusesSkyLight() : bool{
+		return false;
+	}
+
+	/**
 	 * AKA: Block->isPlaceable
 	 *
 	 * @return bool
@@ -489,6 +484,14 @@ class Block extends Position implements BlockIds, Metadatable{
 	}
 
 	public function canPassThrough(){
+		return false;
+	}
+
+	/**
+	 * Returns whether entities can climb up this block.
+	 * @return bool
+	 */
+	public function canClimb() : bool{
 		return false;
 	}
 

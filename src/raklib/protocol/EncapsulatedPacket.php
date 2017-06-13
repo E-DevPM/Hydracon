@@ -23,6 +23,7 @@ namespace raklib\protocol;
 
 #ifndef COMPILE
 use raklib\Binary;
+
 #endif
 
 #include <rules/RakLibPacket.h>
@@ -45,7 +46,7 @@ class EncapsulatedPacket{
 	/**
 	 * @param string $binary
 	 * @param bool   $internal
-	 * @param int	&$offset
+	 * @param int    &$offset
 	 *
 	 * @return EncapsulatedPacket
 	 */

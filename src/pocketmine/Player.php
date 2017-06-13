@@ -102,94 +102,94 @@ use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\network\NetworkSession;
-use pocketmine\network\protocol\AddEntityPacket;
-use pocketmine\network\protocol\AddHangingEntityPacket;
-use pocketmine\network\protocol\AddItemEntityPacket;
-use pocketmine\network\protocol\AddItemPacket;
-use pocketmine\network\protocol\AddPaintingPacket;
-use pocketmine\network\protocol\AddPlayerPacket;
-use pocketmine\network\protocol\AdventureSettingsPacket;
-use pocketmine\network\protocol\AnimatePacket;
-use pocketmine\network\protocol\AvailableCommandsPacket;
-use pocketmine\network\protocol\BatchPacket;
-use pocketmine\network\protocol\BlockEntityDataPacket;
-use pocketmine\network\protocol\BlockEventPacket;
-use pocketmine\network\protocol\BlockPickRequestPacket;
-use pocketmine\network\protocol\BossEventPacket;
-use pocketmine\network\protocol\ChangeDimensionPacket;
-use pocketmine\network\protocol\ChunkRadiusUpdatedPacket;
-use pocketmine\network\protocol\ClientboundMapItemDataPacket;
-use pocketmine\network\protocol\ClientToServerHandshakePacket;
-use pocketmine\network\protocol\CommandBlockUpdatePacket;
-use pocketmine\network\protocol\CommandStepPacket;
-use pocketmine\network\protocol\ContainerClosePacket;
-use pocketmine\network\protocol\ContainerOpenPacket;
-use pocketmine\network\protocol\ContainerSetContentPacket;
-use pocketmine\network\protocol\ContainerSetDataPacket;
-use pocketmine\network\protocol\ContainerSetSlotPacket;
-use pocketmine\network\protocol\CraftingDataPacket;
-use pocketmine\network\protocol\CraftingEventPacket;
-use pocketmine\network\protocol\DataPacket;
-use pocketmine\network\protocol\DisconnectPacket;
-use pocketmine\network\protocol\DropItemPacket;
-use pocketmine\network\protocol\EntityEventPacket;
-use pocketmine\network\protocol\ExplodePacket;
-use pocketmine\network\protocol\FullChunkDataPacket;
-use pocketmine\network\protocol\HurtArmorPacket;
-use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\InventoryActionPacket;
-use pocketmine\network\protocol\ItemFrameDropItemPacket;
-use pocketmine\network\protocol\LevelEventPacket;
-use pocketmine\network\protocol\LevelSoundEventPacket;
-use pocketmine\network\protocol\LoginPacket;
-use pocketmine\network\protocol\MapInfoRequestPacket;
-use pocketmine\network\protocol\MobArmorEquipmentPacket;
-use pocketmine\network\protocol\MobEffectPacket;
-use pocketmine\network\protocol\MobEquipmentPacket;
-use pocketmine\network\protocol\MoveEntityPacket;
-use pocketmine\network\protocol\MovePlayerPacket;
-use pocketmine\network\protocol\PlayerActionPacket;
-use pocketmine\network\protocol\EntityFallPacket;
-use pocketmine\network\protocol\PlayerInputPacket;
-use pocketmine\network\protocol\PlayerListPacket;
-use pocketmine\network\protocol\PlaySoundPacket;
-use pocketmine\network\protocol\PlayStatusPacket;
-use pocketmine\network\protocol\ProtocolInfo;
-use pocketmine\network\protocol\RemoveBlockPacket;
-use pocketmine\network\protocol\RemoveEntityPacket;
-use pocketmine\network\protocol\ReplaceItemInSlotPacket;
-use pocketmine\network\protocol\RequestChunkRadiusPacket;
-use pocketmine\network\protocol\ResourcePackChunkDataPacket;
-use pocketmine\network\protocol\ResourcePackChunkRequestPacket;
-use pocketmine\network\protocol\ResourcePackClientResponsePacket;
-use pocketmine\network\protocol\ResourcePackDataInfoPacket;
-use pocketmine\network\protocol\ResourcePacksInfoPacket;
-use pocketmine\network\protocol\ResourcePackStackPacket;
-use pocketmine\network\protocol\RespawnPacket;
-use pocketmine\network\protocol\RiderJumpPacket;
-use pocketmine\network\protocol\ServerToClientHandshakePacket;
-use pocketmine\network\protocol\SetCommandsEnabledPacket;
-use pocketmine\network\protocol\SetDifficultyPacket;
-use pocketmine\network\protocol\SetEntityDataPacket;
-use pocketmine\network\protocol\SetEntityLinkPacket;
-use pocketmine\network\protocol\SetEntityMotionPacket;
-use pocketmine\network\protocol\SetHealthPacket;
-use pocketmine\network\protocol\SetPlayerGameTypePacket;
-use pocketmine\network\protocol\SetSpawnPositionPacket;
-use pocketmine\network\protocol\SetTimePacket;
-use pocketmine\network\protocol\SetTitlePacket;
-use pocketmine\network\protocol\ShowCreditsPacket;
-use pocketmine\network\protocol\SpawnExperienceOrbPacket;
-use pocketmine\network\protocol\StartGamePacket;
-use pocketmine\network\protocol\StopSoundPacket;
-use pocketmine\network\protocol\TakeItemEntityPacket;
-use pocketmine\network\protocol\TextPacket;
-use pocketmine\network\protocol\TransferPacket;
-use pocketmine\network\protocol\UpdateAttributesPacket;
-use pocketmine\network\protocol\UpdateBlockPacket;
-use pocketmine\network\protocol\UpdateTradePacket;
-use pocketmine\network\protocol\UseItemPacket;
+use pocketmine\network\mcpe\NetworkSession;
+use pocketmine\network\mcpe\protocol\AddEntityPacket;
+use pocketmine\network\mcpe\protocol\AddHangingEntityPacket;
+use pocketmine\network\mcpe\protocol\AddItemEntityPacket;
+use pocketmine\network\mcpe\protocol\AddItemPacket;
+use pocketmine\network\mcpe\protocol\AddPaintingPacket;
+use pocketmine\network\mcpe\protocol\AddPlayerPacket;
+use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
+use pocketmine\network\mcpe\protocol\AnimatePacket;
+use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+use pocketmine\network\mcpe\protocol\BatchPacket;
+use pocketmine\network\mcpe\protocol\BlockEntityDataPacket;
+use pocketmine\network\mcpe\protocol\BlockEventPacket;
+use pocketmine\network\mcpe\protocol\BlockPickRequestPacket;
+use pocketmine\network\mcpe\protocol\BossEventPacket;
+use pocketmine\network\mcpe\protocol\ChangeDimensionPacket;
+use pocketmine\network\mcpe\protocol\ChunkRadiusUpdatedPacket;
+use pocketmine\network\mcpe\protocol\ClientboundMapItemDataPacket;
+use pocketmine\network\mcpe\protocol\ClientToServerHandshakePacket;
+use pocketmine\network\mcpe\protocol\CommandBlockUpdatePacket;
+use pocketmine\network\mcpe\protocol\CommandStepPacket;
+use pocketmine\network\mcpe\protocol\ContainerClosePacket;
+use pocketmine\network\mcpe\protocol\ContainerOpenPacket;
+use pocketmine\network\mcpe\protocol\ContainerSetContentPacket;
+use pocketmine\network\mcpe\protocol\ContainerSetDataPacket;
+use pocketmine\network\mcpe\protocol\ContainerSetSlotPacket;
+use pocketmine\network\mcpe\protocol\CraftingDataPacket;
+use pocketmine\network\mcpe\protocol\CraftingEventPacket;
+use pocketmine\network\mcpe\protocol\DataPacket;
+use pocketmine\network\mcpe\protocol\DisconnectPacket;
+use pocketmine\network\mcpe\protocol\DropItemPacket;
+use pocketmine\network\mcpe\protocol\EntityEventPacket;
+use pocketmine\network\mcpe\protocol\ExplodePacket;
+use pocketmine\network\mcpe\protocol\FullChunkDataPacket;
+use pocketmine\network\mcpe\protocol\HurtArmorPacket;
+use pocketmine\network\mcpe\protocol\InteractPacket;
+use pocketmine\network\mcpe\protocol\InventoryActionPacket;
+use pocketmine\network\mcpe\protocol\ItemFrameDropItemPacket;
+use pocketmine\network\mcpe\protocol\LevelEventPacket;
+use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
+use pocketmine\network\mcpe\protocol\LoginPacket;
+use pocketmine\network\mcpe\protocol\MapInfoRequestPacket;
+use pocketmine\network\mcpe\protocol\MobArmorEquipmentPacket;
+use pocketmine\network\mcpe\protocol\MobEffectPacket;
+use pocketmine\network\mcpe\protocol\MobEquipmentPacket;
+use pocketmine\network\mcpe\protocol\MoveEntityPacket;
+use pocketmine\network\mcpe\protocol\MovePlayerPacket;
+use pocketmine\network\mcpe\protocol\PlayerActionPacket;
+use pocketmine\network\mcpe\protocol\EntityFallPacket;
+use pocketmine\network\mcpe\protocol\PlayerInputPacket;
+use pocketmine\network\mcpe\protocol\PlayerListPacket;
+use pocketmine\network\mcpe\protocol\PlaySoundPacket;
+use pocketmine\network\mcpe\protocol\PlayStatusPacket;
+use pocketmine\network\mcpe\protocol\ProtocolInfo;
+use pocketmine\network\mcpe\protocol\RemoveBlockPacket;
+use pocketmine\network\mcpe\protocol\RemoveEntityPacket;
+use pocketmine\network\mcpe\protocol\ReplaceItemInSlotPacket;
+use pocketmine\network\mcpe\protocol\RequestChunkRadiusPacket;
+use pocketmine\network\mcpe\protocol\ResourcePackChunkDataPacket;
+use pocketmine\network\mcpe\protocol\ResourcePackChunkRequestPacket;
+use pocketmine\network\mcpe\protocol\ResourcePackClientResponsePacket;
+use pocketmine\network\mcpe\protocol\ResourcePackDataInfoPacket;
+use pocketmine\network\mcpe\protocol\ResourcePacksInfoPacket;
+use pocketmine\network\mcpe\protocol\ResourcePackStackPacket;
+use pocketmine\network\mcpe\protocol\RespawnPacket;
+use pocketmine\network\mcpe\protocol\RiderJumpPacket;
+use pocketmine\network\mcpe\protocol\ServerToClientHandshakePacket;
+use pocketmine\network\mcpe\protocol\SetCommandsEnabledPacket;
+use pocketmine\network\mcpe\protocol\SetDifficultyPacket;
+use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
+use pocketmine\network\mcpe\protocol\SetEntityLinkPacket;
+use pocketmine\network\mcpe\protocol\SetEntityMotionPacket;
+use pocketmine\network\mcpe\protocol\SetHealthPacket;
+use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\mcpe\protocol\SetSpawnPositionPacket;
+use pocketmine\network\mcpe\protocol\SetTimePacket;
+use pocketmine\network\mcpe\protocol\SetTitlePacket;
+use pocketmine\network\mcpe\protocol\ShowCreditsPacket;
+use pocketmine\network\mcpe\protocol\SpawnExperienceOrbPacket;
+use pocketmine\network\mcpe\protocol\StartGamePacket;
+use pocketmine\network\mcpe\protocol\StopSoundPacket;
+use pocketmine\network\mcpe\protocol\TakeItemEntityPacket;
+use pocketmine\network\mcpe\protocol\TextPacket;
+use pocketmine\network\mcpe\protocol\TransferPacket;
+use pocketmine\network\mcpe\protocol\UpdateAttributesPacket;
+use pocketmine\network\mcpe\protocol\UpdateBlockPacket;
+use pocketmine\network\mcpe\protocol\UpdateTradePacket;
+use pocketmine\network\mcpe\protocol\UseItemPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
@@ -919,6 +919,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->spawnToAll();
 
+		if($this->server->getUpdater()->hasUpdate() and $this->hasPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE)){
+			$this->server->getUpdater()->showPlayerUpdate($this);
+		}
+
 		if($this->getHealth() <= 0){
 			$pk = new RespawnPacket();
 			$pos = $this->getSpawn();
@@ -1098,6 +1102,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return false;
 		}
 
+		//Basic safety restriction. TODO: improve this
+		if(!$this->loggedIn and !$packet->canBeSentBeforeLogin()){
+			throw new \InvalidArgumentException("Attempted to send " . get_class($packet) . " to " . $this->getName() . " too early");
+		}
+
 		$timings = Timings::getSendDataPacketTimings($packet);
 		$timings->startTiming();
 		$this->server->getPluginManager()->callEvent($ev = new DataPacketSendEvent($this, $packet));
@@ -1186,7 +1195,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->level->sleepTicks = 0;
 
 			$pk = new AnimatePacket();
-			$pk->entityRuntimeId = $this->id;
+			$pk->eid = $this->id;
 			$pk->action = 3; //Wake up
 			$this->dataPacket($pk);
 		}
@@ -1234,7 +1243,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * TODO: remove this when Spectator Mode gets added properly to MCPE
 	 *
 	 * @param int $gamemode
-	 * @return int
 	 */
 	public static function getClientFriendlyGamemode(int $gamemode) : int{
 		$gamemode &= 0x03;
@@ -1511,20 +1519,23 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$dx = $newPos->x - $this->x;
 			$dy = $newPos->y - $this->y;
 			$dz = $newPos->z - $this->z;
+
 			$this->move($dx, $dy, $dz);
+
 			$diffX = $this->x - $newPos->x;
 			$diffY = $this->y - $newPos->y;
 			$diffZ = $this->z - $newPos->z;
+
 			$diff = ($diffX ** 2 + $diffY ** 2 + $diffZ ** 2) / ($tickDiff ** 2);
+
 			if($this->isSurvival() and !$revert and $diff > 0.0625){
-				$ev = new PlayerIllegalMoveEvent($this, $newPos);
-				$ev->setCancelled($this->allowMovementCheats);
-				$this->server->getPluginManager()->callEvent($ev);
+
 				if(!$ev->isCancelled()){
 					$revert = true;
 					$this->server->getLogger()->warning($this->getServer()->getLanguage()->translateString("pocketmine.player.invalidMove", [$this->getName()]));
 				}
 			}
+
 			if($diff > 0){
 				$this->x = $newPos->x;
 				$this->y = $newPos->y;
@@ -1622,7 +1633,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$entries = $sendAll ? $this->attributeMap->getAll() : $this->attributeMap->needSend();
 		if(count($entries) > 0){
 			$pk = new UpdateAttributesPacket();
-			$pk->entityRuntimeId = $this->id;
+			$pk->entityId = $this->id;
 			$pk->entries = $entries;
 			$this->dataPacket($pk);
 			foreach($entries as $entry){
@@ -1754,10 +1765,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return;
 		}elseif($this->server->getNameBans()->isBanned($this->iusername) or $this->server->getIPBans()->isBanned($this->getAddress())){
 			$this->close($this->getLeaveMessage(), "You are banned");
-			
-			return;
-		}elseif($this->server->getNameBans()->isBanned(strtolower($this->getName())) or $this->server->getIPBans()->isBanned($this->getAddress()) or $this->server->getCIDBans()->isBanned($this->randomClientId)){
-			$this->close($this->getLeaveMessage(), TextFormat::RED . "You are banned");
 
 			return;
 		}
@@ -1829,6 +1836,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	protected function completeLoginSequence(){
 		parent::__construct($this->level, $this->namedtag);
+		$this->server->getPluginManager()->callEvent($ev = new PlayerLoginEvent($this, "Plugin reason"));
+		if($ev->isCancelled()){
+			$this->close($this->getLeaveMessage(), $ev->getKickMessage());
+
+			return;
+		}
 
 		if(!$this->hasValidSpawnPosition() and isset($this->namedtag->SpawnLevel) and ($level = $this->server->getLevelByName($this->namedtag["SpawnLevel"])) instanceof Level){
 			$this->spawnPosition = new WeakPosition($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
@@ -1861,13 +1874,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->levelId = "";
 		$pk->worldName = $this->server->getMotd();
 		$this->dataPacket($pk);
-
-		$this->server->getPluginManager()->callEvent($ev = new PlayerLoginEvent($this, "Plugin reason"));
-		if($ev->isCancelled()){
-			$this->close($this->getLeaveMessage(), $ev->getKickMessage());
-
-			return;
-		}
 
 		$this->level->sendTime($this);
 
@@ -2016,7 +2022,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$pk = new ResourcePackDataInfoPacket();
 					$pk->packId = $pack->getPackId();
 					$pk->maxChunkSize = 1048576; //1MB
-					$pk->chunkCount =(int) ceil($pack->getPackSize() / $pk->maxChunkSize);
+					$pk->chunkCount = $pack->getPackSize() / $pk->maxChunkSize;
 					$pk->compressedPackSize = $pack->getPackSize();
 					$pk->sha256 = $pack->getSha256();
 					$this->dataPacket($pk);
@@ -2416,8 +2422,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case InteractPacket::ACTION_MOUSEOVER:
 				break; //TODO: handle these
 			default:
-				$this->server->getLogger()->debug("Unhandled/unknown interaction type " . $packet->action . "received from " . $this->getName());
-
+				$this->server->getLogger()->debug("Unhandled/unknown interaction type " . $packet->action . "received from ". $this->getName());
 				return false;
 		}
 
@@ -2561,7 +2566,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return true;
 		}
 
-		$packet->entityRuntimeId = $this->id;
+		$packet->eid = $this->id;
 		$pos = new Vector3($packet->x, $packet->y, $packet->z);
 
 		switch($packet->action){
@@ -2672,7 +2677,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 
 					$pk = new EntityEventPacket();
-					$pk->entityRuntimeId = $this->getId();
+					$pk->eid = $this->getId();
 					$pk->event = EntityEventPacket::USE_ITEM;
 					$this->dataPacket($pk);
 					$this->server->broadcastPacket($this->getViewers(), $pk);
@@ -2828,7 +2833,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$pk = new AnimatePacket();
-		$pk->entityRuntimeId = $this->getId();
+		$pk->eid = $this->getId();
 		$pk->action = $ev->getAnimationType();
 		$this->server->broadcastPacket($this->getViewers(), $pk);
 
@@ -3001,27 +3006,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return true;
 		}
 
-		
-        $classicingredients = [];
-        if(empty($packet->input)){
-            if(!$recipe instanceof ShapedRecipe){
-                $classicingredients = $recipe->getIngredientList();
-            }else{
-                for($x=0;$x<3; ++$x) {
-                    for ($y = 0; $y < 3; ++$y) {
-                        if(($item = $recipe->getIngredient($x, $y)) instanceof Item){
-                            $classicingredients[] = $item;
-                        }else continue;
-                    }
-                }
-            }
-            for($x = 0; $x < 3; ++$x){
-                for($y = 0; $y < 3; ++$y){
-                    $packet->input[$y * 3 + $x] = ($recipe->getIngredient($x, $y)??Item::get(Item::AIR));
-                }
-            }
-        }
-		
 		$canCraft = true;
 
 		if($recipe instanceof ShapedRecipe){
@@ -3074,7 +3058,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		/** @var Item[] $ingredients */
 		$ingredients = $packet->input;
-		 if(empty($ingredients)) $ingredients = $classicingredients;
 		$result = $packet->output[0];
 
 		if(!$canCraft or !$recipe->getResult()->equals($result)){
@@ -3416,10 +3399,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$timings->startTiming();
 
 		$packet->decode();
-		if(!$packet->feof()){
-			$remains = substr($packet->buffer, $packet->offset);
-			$this->server->getLogger()->debug("Still " . strlen($remains) . " bytes unread in " . $packet->getName() . ": 0x" . bin2hex($remains));
-		}
+		assert($packet->feof(), "Still " . strlen(substr($packet->buffer, $packet->offset)) . " bytes unread in " . get_class($packet));
 
 		$this->server->getPluginManager()->callEvent($ev = new DataPacketReceiveEvent($this, $packet));
 		if(!$ev->isCancelled() and !$packet->handle($this)){
@@ -3509,7 +3489,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @param string $subtitle
 	 */
 	public function addSubTitle(string $subtitle){
-		$this->sendTitleText($subtitle, SetTitlePacket::TYPE_SET_SUBTITLE);
+	    $this->sendTitleText($subtitle, SetTitlePacket::TYPE_SET_SUBTITLE);
 	}
 
 	/**
@@ -3534,9 +3514,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * Resets the title duration settings.
 	 */
 	public function resetTitles(){
-		$pk = new SetTitlePacket();
-		$pk->type = SetTitlePacket::TYPE_RESET_TITLE;
-		$this->dataPacket($pk);
+	    $pk = new SetTitlePacket();
+	    $pk->type = SetTitlePacket::TYPE_RESET_TITLE;
+	    $this->dataPacket($pk);
 	}
 
 	/**
@@ -3946,7 +3926,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return;
 		}elseif($this->getLastDamageCause() === $source and $this->spawned){
 			$pk = new EntityEventPacket();
-			$pk->entityRuntimeId = $this->id;
+			$pk->eid = $this->id;
 			$pk->event = EntityEventPacket::HURT_ANIMATION;
 			$this->dataPacket($pk);
 
@@ -3961,7 +3941,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pitch = $pitch === null ? $this->pitch : $pitch;
 
 		$pk = new MovePlayerPacket();
-		$pk->entityRuntimeId = $this->getId();
+		$pk->eid = $this->getId();
 		$pk->x = $pos->x;
 		$pk->y = $pos->y + $this->getEyeHeight();
 		$pk->z = $pos->z;
@@ -4028,9 +4008,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 
 			$this->sendPosition($this, null, null, MovePlayerPacket::MODE_RESET);
-			//This only needs to be sent to players who could see us before the teleport.
-			$this->sendPosition($this, null, null, MovePlayerPacket::MODE_RESET, $this->getViewers());
-
 			$this->spawnToAll();
 			$this->forceMovement = $this->teleportPosition;
 			$this->teleportPosition = null;
