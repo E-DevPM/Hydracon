@@ -2,7 +2,10 @@
 
 __Hydracon is a free, open-source software that creates Minecraft: Pocket Edition & Windows 10 servers and allows extending its functionalities.__
 
-# Download Hydracon Updated 1.1.0 Unstable !
+# Download Hydracon Updated 1.1.0! 
+
+> Inventory transaction for classic UI is unstable!
+
  - You Can Download Hydracon_ __[Here!](https://github.com/E-DevPM/Stable-Phar-Hydracon/)__
 
 > Kindly use the provided start.sh, rename the phar to Hydracon.phar or PocletMine-MP.phar
