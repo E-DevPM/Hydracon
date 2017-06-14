@@ -247,4 +247,6 @@ interface BlockIds{
 	const RED_GLAZED_TERRACOTTA = 233;
 	const BLACK_GLAZED_TERRACOTTA = 234;
 	
+	const CONCRETE = 236;
+	const CONCRETE_POWDER = 237;
 }

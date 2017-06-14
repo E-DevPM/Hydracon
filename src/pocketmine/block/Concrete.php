@@ -30,7 +30,7 @@ class Concrete extends Solid{
 	}
 
 	public function getHardness(){
-		return 1.8;
+		return 0.8;
 	}
 
 	public function getToolType(){
