@@ -144,6 +144,6 @@ class Noteblock extends Solid implements ElectricalAppliance{
 	}
 
 	public function getName() : string{
-		return "Noteblock";
+		return "NoteBlock";
 	}
 }
