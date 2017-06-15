@@ -3475,10 +3475,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @param int    $stay Duration in ticks to stay on screen for
 	 * @param int    $fadeOut Duration in ticks for fade-out.
 	 */
-	public function addTitle(string $title, string $subtitle = "", int $fadeIn = -1, int $stay = -1, int $fadeOut = -1){
+	public function addTitle(string $title, string $subtitle = "", int $fadeIn, int $stay, int $fadeOut){
 		$this->setTitleDuration($fadeIn, $stay, $fadeOut);
 		if($subtitle !== ""){
-			$this->addSubTitle($subtitle);
+			$this->sendTitleText($subtitle, SetTitlePacket::TYPE_SET_SUBTITLE);
 		}
 		$this->sendTitleText($title, SetTitlePacket::TYPE_SET_TITLE);
 	}
@@ -3527,7 +3527,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @param int $fadeOut Title fade-out time in ticks.
 	 */
 	public function setTitleDuration(int $fadeIn, int $stay, int $fadeOut){
-		if($fadeIn >= 0 and $stay >= 0 and $fadeOut >= 0){
+		if($fadeIn >= 2 and $stay >= 2 and $fadeOut >= 2){
 			$pk = new SetTitlePacket();
 			$pk->type = SetTitlePacket::TYPE_SET_ANIMATION_TIMES;
 			$pk->fadeInTime = $fadeIn;
